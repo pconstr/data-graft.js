@@ -1,0 +1,224 @@
+@font-face {
+    font-family: 'LaneNarrowRegular';
+    src: url('/data-graft/doc/LANENAR_-webfont.eot');
+    src: url('/data-graft/doc/LANENAR_-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/data-graft/doc/LANENAR_-webfont.woff') format('woff'),
+         url('/data-graft/doc/LANENAR_-webfont.ttf') format('truetype'),
+         url('/data-graft/doc/LANENAR_-webfont.svg#LaneNarrowRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+#title {
+    font: normal normal 40px 'LaneNarrowRegular', Arial, sans-serif;
+    color: #C0C0C0;    
+    margin-right: 20px;
+    display: inline-block;
+    width: 400px;
+}
+
+h2 {
+    font: normal normal 30px 'LaneNarrowRegular', Arial, sans-serif;
+    color: #C0C0C0;
+    margin-top: 10px;
+}
+
+#title-next,
+#title-prev {
+    font: normal normal 14px 'LaneNarrowRegular', Arial, sans-serif;
+    display: inline-block;
+    width: 150px;
+}
+
+#page {
+    position: relative;
+}
+
+#contenttemplate {
+    display: none;
+}
+
+.content {
+    position: absolute;
+    overflow-x: hidden;
+    margin-left: 10px;
+}
+
+a:link,
+a:visited,
+a:hover,
+a:active {
+    text-decoration: none;
+}
+
+.link:link,
+.link:visited,
+.link:hover,
+.link:active {
+    text-decoration: underline;
+}
+
+downmark {
+    clear: left;
+}
+
+.downmark,
+.data,
+.output {
+    width: 230px;
+    background-color: #181818;
+    padding: 15px;
+    margin-right: 10px;
+}
+
+.datastack,
+.downmark,
+.output {
+    float: left;
+}
+
+.data {
+    margin-bottom: 5px;
+}
+
+.selected {
+    color: white;
+}
+
+.data:hover {
+    background-color: #303030;
+}
+
+.bigplus,
+.bigequals {
+    float: left;
+    font: normal normal 30px 'LaneNarrowRegular', Arial, sans-serif;
+    color: #C0C0C0;
+    margin-right: 10px;
+    margin-top: 20px;
+}
+
+#bigprev,
+#bignext {
+    margin-right: 10px;
+    background-color: #181830;
+    padding: 15px;
+    margin-bottom: 40px;
+}
+
+#bigprev:hover,
+#bignext:hover {
+    background-color: #303048;
+}
+
+.content {
+    width: 900px;
+}
+
+.textblock {
+    clear: both;
+}
+
+.jsblock,
+.snippetblock,
+.htmlblock {
+    font: normal normal 14px 'Courier';
+    color: #C0C0C0;
+    background-color: #181818;
+    padding: 15px;
+}
+
+.bigor {
+    font: normal normal 20px 'LaneNarrowRegular', Arial, sans-serif;
+    width: 230px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+#header {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    margin-left: 10px;
+}
+
+.example {
+    display: none;
+}
+
+#header,
+#page {
+    opacity: 0; filter:alpha(opacity=0);
+}
+
+hr {
+}
+
+span, div {
+    font: normal normal 14px 'Courier';
+    color: #C0C0C0;
+}
+
+a, p, li, td, th {
+    font: normal normal 20px 'LaneNarrowRegular', Arial, sans-serif;
+    color: #C0C0C0;
+}
+
+th {
+    font-weight: bold;
+}
+
+td {
+    background-color: #181818;
+}
+
+body {
+    background-color: #4A4A4A;
+}
+
+#templates {
+    display: none;
+}
+
+.element {
+}
+
+.openingtag {
+}
+
+.closingtag {
+}
+
+.tagname {
+    color: orange;
+}
+
+.attributename {
+    color: cyan;
+}
+
+.attributevalue {
+    color: lightgrey;
+}
+
+.children {
+    margin-left: 20px;
+}
+
+.prettyinside {
+    color: inherit;
+}
+
+.comma,
+.quote,
+.colon,
+.openbrace,
+.openbracket,
+.closebrace,
+.closebracket,
+.literal {
+    color: inherit;
+}

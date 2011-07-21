@@ -1,0 +1,343 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>data-graft.js doc</title>
+    <link href="doc.css" rel="stylesheet" type="text/css"></link>
+    <script type="text/javascript" src="/data-graft/doc/stuff/jquery-1.5.1.min.js"></script>
+    <script type="text/javascript" src="/data-graft/doc/data-graft.js"></script>
+    <script type="text/javascript" src="/data-graft/doc/doc.js"></script>
+    <script type="text/javascript" src="/data-graft/doc/stuff/imagesLoaded.js"></script>
+  </head>
+
+  <body>
+    <div id="templates">
+
+      <div id="exampletemplate">
+	<div class="downmark">
+	  </div>	  
+	<div class="bigplus">+</div>	  
+	<div class="datastack">
+	</div>	  
+	  <div class="bigequals">=</div>	  
+	  <div class="output">
+	  </div>
+      </div>
+
+      <div id="downmarkgraft">
+      </div>
+
+      <div id="tpl_about"><span>shown in:</span><span data-graft-text="color"></span></div>
+      <div id="tpl_text">
+	<span>a</span>
+	<span data-graft-text="adj"></span>
+	<span>&nbsp;</span>
+	<span data-graft-text="noun"></span>
+      </div>
+      <div id="tpl_function" data-graft-text=":f">
+      </div>
+      <img id="tpl_attributes" data-graft--src="photo">
+      </img>
+      <div id="tpl_if" data-graft-if="address">
+	<div>address:</div>
+	<div>
+	  <span data-graft-text="city"></span>
+	  <span>,</span>
+	  <span data-graft-text="country"></span>
+	</div>
+      </div>
+      <ul id="tpl_each" data-graft-each="code">
+	<li class="item"><span data-graft-text="code"></span><span data-graft-text=""></span></li>
+      </ul>
+      <ul id="tpl_for" data-graft-for="id">
+	<li class="item" data-graft-text="id"></li>
+      </ul>
+      <ul id="tpl_simplefor" data-graft-for="">
+	<li class="item" data-graft-text=""></li>
+      </ul>
+      <ul id="tpl_ordinalfor" data-graft-for="_idx_">
+	<li class="item" data-graft-text=""></li>
+      </ul>
+      <div id="tpl_else">
+	<div data-graft-if="address">
+	  <div>address:</div>
+	  <div>
+	    <span data-graft-text="city"></span>
+	    <span>,</span>
+	    <span data-graft-text="country"></span>
+	  </div>
+	</div>
+	<div data-graft-else="">
+	  <div>address unknown</div>
+	</div>
+      </div>
+
+      <div id="content_about" class="content">
+	<h2>About</h2>
+	<div class="textblock">
+	  <p>data-graft.js is a animation-friendly differential DOM template engine, self-contained and framework-agnostic.</p>
+	  <p>Instead of stringing up bits of HTML markup, it works from a DOM template, operates on DOM nodes and never touches markup.</p>
+	  <p>data-graft.js updates differentially - minimizing the number of changes to the presentation required to match the new data - and provides hooks to animate those changes.</p>
+	</div>
+	<div class="example"></div>
+	<div class="textblock">
+	  <p>Check out the <a class="link" href="http://labs.perceptiveconstructs.com/catsagram">catsagram demo</a> and get the <a class="link" href="data-graft.js">code</a></p>
+	</div>
+      </div>
+      <div id="content_using" class="content">
+	<h2>Using</h2>
+	<div class="textblock">
+	  <p>Keep your template in the page - make it invisible with css:</p>
+	</div>
+	<div class="htmlblock" data-node="tpl_about"></div>
+	<div class="textblock">
+	  <p>Germinate the presentation graft with initial data and place its output:</p>
+	</div>
+	<div class="jsblock" data-node="tpl_about">
+	  <div>graft = data-graft.germ({color:red}, document.getElementById('tpl_about'), {});</div>
+	  <div>dest.appendChild(graft.output);</div>
+	</div>
+	<div class="textblock">
+	  <p>The 3rd argument to <b>germ()</b> is the context, more on that later.</p>
+	</div>	<div class="textblock">
+	  <p>Update the graft as data changes, this will differentially update its presentation in place:</p>
+	</div>
+	<div class="jsblock" data-node="tpl_about">graft.update({color:blue});</div>
+      </div>
+      <div id="content_templates" class="content">
+	<h2>Templates</h2>
+	<div class="textblock">
+	  <p>Templates are annotated DOM element trees:</p>
+	  <ul>
+	    <li>data-graft attributes describe how data is grafted with nodes</li>
+	    <li>id attributes are simply ignored and filtered out</li>
+	    <li>everything else is copied as is, including all other attributes, text nodes and comments</li>
+	  </ul>
+	  <p>Templates are accessed in every update, so they need to stay around.</p>
+	  <p>In the following examples <em>d</em> will refer to the data object matched with the element being discussed.</p>
+	</div>
+      </div>
+      <div id="content_text" class="content">
+	<h2>Grafting text</h2>
+	<div class="snippetblock">data-graft-text="<em>key</em>"</div>
+	<div class="textblock">
+	  <p>Use it on an element to place inside a node with text from <em>key</em> of <em>d</em>.</p>
+	  <p><b>null</b> or <b>undefined</b> will result in no text node at all.</p>
+	</div>
+	<div class="example"></div>
+      </div>
+      <div id="content_values" class="content">
+	<h2>Values</h2>
+	<div class="textblock">
+	  <p>The value of <em>key</em> of <em>d</em> is often the value of the property <em>key</em> in <em>d</em> (<em>d</em>.<em>key</em>), but there are other possibilities:</p>
+	  <ul>
+	    <li>if <em>key</em> is the empty string, then the value will be <em>d</em> itself. this is particularly useful if <em>d</em> is already of a simple type</li>
+	    <li>composition is allowed: e.g.: the key could be <b>a.b</b> with value <em>d</em><b>.a.b</b></li>
+	  </ul>
+	</div>
+	<h2>Functions</h2>
+	<div class="textblock">
+	  <p>It's possible to evaluate a javascript function by prefixing the function name - which can be composite - with a colon (<b>:</b>).</p>
+	  <p>data-graft.js will look for functions in the <em>context</em> object, that's one of the uses for the 3rd argument to <b>germ()</b>.</p>
+	  <p>The function to evaluate takes a single argument with <em>d</em> and is expected to return a string.</p>
+	  <p>Currently it's not possible to compose functions with other functions or with property access (<b>.</b>).</p>
+	</div>
+      </div>
+      <div id="content_function" class="content">
+	<h2>Function example</h2>
+	<div class="example"></div>
+	<div class="textblock">
+	  <p>With the following function defined inside <em>context</em>:</p>
+	</div>
+	<div class="snippetblock">
+	  context = { f: function(d) { return d.a+ '_'+ d.b; } };
+	</div>
+      </div>
+      <div id="content_attributes" class="content">
+	<h2>Grafting attribute values</h2>
+	<div class="snippetblock">data-graft--<em>name</em>="<em>key</em>"</div>
+	<div class="textblock">
+	  <p>Use it on an element to set the value of the attribute <em>name</em> to <em>key</em> of <em>d</em>. Note the double dash.</p>
+	  <p><b>null</b> or <b>undefined</b> will result in the attribute not being set at all.</p>
+	</div>
+	<div class="example"></div>
+      </div>
+      <div id="content_if" class="content">
+	<h2>Grafting conditionally on a property</h2>
+	<div class="snippetblock">data-graft-if="<em>key</em>"</div>
+	<div class="textblock">
+	  <p><b>data-graft-if</b> allows for conditional presentation of part of a template.</p>
+	  <p>The elements inside will be grafted if and only if <em>key</em> exists in <em>d</em> and <em>d</em>.<em>key</em> is not <b>null</b> or <b>undefined</b>.</p>
+	  <p><em>d</em>.<em>key</em> will be used as data to graft those elements.</p>
+	</div>
+	<div class="example"></div>
+      </div>
+      <div id="content_each" class="content">
+	<h2>Grafting each property</h2>
+	<div class="snippetblock">data-graft-each="<em>prop</em>"</div>
+	<div class="textblock">
+	  <p>Will graft a copy of the child template element with each (own) property of <em>d</em>.</p>
+	  <p>Inside, <em>prop</em> refers to each property ID.</p>
+	  <p>The copies are ordered by increasing value of the property ID.</p>
+	  </ul>
+	</div>
+	<div class="example"></div>
+	<div class="textblock">
+	  <p><b>data-graft-each</b> can only handle a single child element though it can be arbitrarily complex.</p>
+	</div>
+      </div>
+      <div id="content_for" class="content">
+	<h2>Grafting an array</h2>
+	<div class="snippetblock">data-graft-for="<em>key</em>"</div>
+	<div class="textblock">
+	  <p>Will graft a copy of the child template with each element of the array <em>d</em>.</p>
+	  <p>The copies are identified and ordered by increasing value of <em>key</em> of <em>d</em>, which must be unique for <b>data-graft-for</b> to work correctly.</p>
+	</div>
+	<div class="example"></div>
+	<div class="textblock">
+	  <p><b>data-graft-for</b> can only handle a single child element though it can be arbitrarily complex.</p>
+	</div>
+      </div>
+      <div id="content_simplefor" class="content">
+	<h2>Grafting simple array</h2>
+	<div class="textblock">
+	  <p>You can sort and graft an array of a simple type by using the simple values themselves as keys.</p>
+	  <p>But will only work correctly if there are no duplicates.</p>
+	</div>
+	<div class="example"></div>
+      </div>
+      <div id="content_ordinalfor" class="content">
+	<h2>Grafting by index</h2>
+	<div class="textblock">
+	  <p>You can use the <b>_idx_</b> special key to graft by index.</p>
+	  <p>The elements of the array will appear in the same order they are in the array, and replace whatever elements were there, rather than move up or down to accommodate changes.</p>
+	</div>
+	<div class="example"></div>
+      </div>
+      <div id="content_else" class="content">
+	<h2>Grafting where else</h2>
+	<div class="snippetblock">data-graft-else=""</div>
+	<div class="textblock">
+	  <p><b>data-graft-else</b> is complementary to <b>data-graft-if</b>, <b>data-graft-each</b> and <b>data-graft-for</b>.</p>
+	  <p>The elements inside will be grafted if nothing was grafted in the preceding <b>data-graft-if</b>, <b>data-graft-each</b> or <b>data-graft-for</b>.</p>
+	</div>
+	<div class="example"></div>
+      </div>
+      <div id="content_animation" class="content">
+	<h2>Animation</h2>
+	<div class="textblock">
+	  <p>data-graft.js operates differentially by design, and will insert, remove and change the minimum amount of elements it can in order to match changed data.</p>
+	  <p>It will not animate any of these changes by itself, but rather provide hooks for application developers to implement their animations.</p>
+	  <p>You can set animation hooks by mapping change handlers inside the <em>context</em> object. These can be set for elements of a specific class:</p>
+	</div>
+	<div class="snippetblock">
+	  context = {'item': { preUpdateText: function(e, finished) { finished(); } } };
+	</div>
+	<div class="textblock">
+	  <p>Or for all elements:</p>
+	</div>
+	<div class="snippetblock">
+	  context = {'_all_': { preUpdateText: function(e, finished) { finished(); } } };
+	</div>
+	<div class="textblock">
+	  <p>All change handlers have the same signature:
+	    <ul>
+	      <li><b>e</b> is the element being changed or its parent</li>
+	      <li><b>f</b> is a function to chain back to (with no args) after completing the animation</li>
+	    </ul>
+	  </p>
+	</div>
+      </div>
+      <div id="content_change_handlers" class="content">
+	<h2>Change handlers</h2>
+	<div class="textblock">
+	  <p>All change handlers come in pairs. A <b>pre</b>- and a <b>post</b><em>-operation</em>. And with the exception of the text change handlers also in <b>Insert</b>- and <b>Remove</b>- pairs.</p>
+	  <ul>
+	    <li><b>preInsert</b>- handlers are called with a newly created element, before it is inserted into the DOM. That doesn't happen until the handler has called back</li>
+	    <li><b>postInsert</b>- handlers are called after a new element has been inserted into the DOM</li>
+	    <li><b>preRemove</b>- handlers are called before an existing element is removed from the DOM. That doesn't happen until the handler has called back</li>
+	    <li><b>postRemove</b>- handlers are called after the element has been removed from the DOM</li>
+	  </ul>
+	  <p>These 4 handlers are defined for different kinds of elements:</p>
+	  <ul>
+	    <li>-<b>Text</b> for <b>data-graft-text</b>, <em>e</em> is the parent <b>data-graft-text</b> element for convenience rather than the text node itself</li>
+	    <li>-<b>If</b> for <b>data-graft-if</b>, again <em>e</em> is the parent <b>data-graft-if</b> element rather than the elements just inserted/removed under it</li>
+	    <li>-<b>Sequence</b> for <b>data-graft-each</b> and <b>data-graft-for</b>, in this case <em>e</em> is the the child element</li>
+	    <li>-<b>Else</b> for <b>data-graft-else</b>, again <em>e</em> is the parent <b>data-graft-else</b> element rather the elements just inserted/removed under it</li>
+	  </ul>
+	  <p>Finally there are 2 handlers for in-place changes to a text node, in both <em>e</em> is the parent <b>data-graft-text</b> element:</p>
+	  <ul>
+	    <li><b>preUpdateText</b> is called before the text node is changed. That doesn't happen until the handler has called back</li>
+	    <li><b>postUpdateText</b> is called after the text node has been changed</li>
+	  </ul>
+	</div>
+      </div>
+      <div id="content_change_table" class="content">
+	<h2>Change handlers table</h2>
+	<div class="textblock">
+	  <table>
+	    <thead>
+	      <th>Text (parent)</th><th>If (parent)</th><th>Sequence (child)</th><th>Else (parent)</th>
+	    </thead>
+	    <tbody>
+	      <tr>
+		<td>preInsertText postInsertText</td>
+		<td>preInsertIf postInsertIf</td>
+		<td>preInsertSequence postInsertSequence</td>
+		<td>preInsertElse postInsertElse</td>
+	      </tr>
+	      <tr>
+		<td>preRemoveText postRemoveText</td>
+		<td>preRemoveIf postRemoveIf</td>
+		<td>preRemoveSequence postRemoveSequence</td>
+		<td>preRemoveElse postRemoveElse</td>
+	      </tr>
+	      <tr>
+		<td>preUpdateText postUpdateText</td>
+	      </tr>
+	    </tbody>
+	  </table>
+	</div>
+      </div>
+      <div id="content_start_finish" class="content">
+	<h2>Animation start/finish</h2>
+	<div class="textblock">
+	  <p>Each graft <b>update()</b> can set off a cascade of change handler calls and resulting (asynchronous) animations.</p>
+	  <p>Strictly following the convention to call <b>finished()</b> upon the completion of the animation(s) for a change allows <b>update()</b> to orchestrate these callbacks harmoniously.</p>
+	  <p>Until everything settles down, you must not touch the DOM graft either directly or through another call to update() since it may interfere with changes still queued up or with the animations themselves, often with showstopper errors.</p>
+	  <p>To keep tabs with the animation progress you can set two hooks in <e>context</e>:</p>
+	  <ul>
+	    <li><b>start()</b> will be called with no arguments before the animations start</li>
+	    <li><b>finish()</b> will be called with no arguments after the animations have finished</li>
+	  </ul>
+	</div>
+      </div>
+      <div id="content_init" class="content">
+	<h2>Initializing an element</h2>
+	<div class="textblock">
+	  <p>Sometimes, it can be handy to initialize a newly created element.</p>
+	  <p>Change handlers are meant for animation and are not called on initial germination, or for elements internal to an insertion.</p>
+	</div>
+	<div class="snippetblock">
+	  context = {'item': { init: function(e) { ... } } };
+	</div>
+	<div class="textblock">
+	  <p><b>init</b> is called for each element <em>e</em> created during germination or update. It must perform its function synchronously and without delay</p>	  
+	</div>
+      </div>
+    </div>
+    
+    <div id="header">
+      <span id="title">data-graft.js</span>
+      <a href="" id="bigprev">&larr; <span id="title-prev"></span></a>
+      <a href="" id="bignext"><span id="title-next"></span> &rarr;</a>
+    </div>
+    
+    <hr></hr>
+    
+    <div id="page">
+    </div>
+
+    <a href="http://github.com/pconstr/data-graft.js"><img style="position: absolute; top: 0; right: 0; border: 0;" src="githubribbon_black.png" alt="Fork me on GitHub"></a>
+    
+  </body>
+</html>

@@ -1,0 +1,55 @@
+.hidden {
+    display: none;
+}
+
+#output {
+}
+
+table#output {
+	border-width: 0px;
+	border-spacing: 2px;
+	border-style: outset;
+	border-collapse: collapse;
+}
+table#output th {
+	border-width: 1px;
+	padding: 1px;
+	border-style: inset;
+	-moz-border-radius: ;
+}
+table#output td {
+	border-width: 1px;
+	padding: 1px;
+	border-style: inset;
+	-moz-border-radius: ;
+}
+
+.updated {
+    background: yellow;
+}
+
+.added {
+    background: lightblue;
+}
+
+img.updated-src {
+    border-width: 1px;
+    border-style: groove;
+    border-color: yellow;
+}
+
+img.added {
+    border-width: 1px;
+    border-style: groove;
+    border-color: lightblue;
+}
+
+td.failed {
+    background: red;
+    color: white;
+}
+
+td.OK {
+    background: green;
+    color: white;
+}
