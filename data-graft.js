@@ -118,9 +118,9 @@ data_graft = (function() {
 	var keyPairs = [];
 	var i;
 	for(i = 0; i < a.length; ++i) {
-	    pushed['_idx_'] = i;
+	    pushed._idx_ = i;
 	    keyPairs.push([getValue(a[i], v, pushed, context), i]);
-	    delete pushed['_idx_'];
+	    delete pushed._idx_;
 	}
 	keyPairs.sort(function(k1, k2) {
 	    return k1[0] - k2[0];
@@ -176,7 +176,7 @@ data_graft = (function() {
 
 	function go() {
 	    var c, ch;
-	    if(classIdx == classList.length) {
+	    if(classIdx === classList.length) {
 		if(f !== undefined) {
 		    f();
 		}
@@ -207,6 +207,7 @@ data_graft = (function() {
     }
 
     function popVars(pushed, toPush) {
+	var pe;
 	for(pe in toPush) {
 	    if(toPush.hasOwnProperty(pe)) {
 		delete pushed[pe];
@@ -217,7 +218,7 @@ data_graft = (function() {
     function germinate(d, t, idx, germState, pushed, context) {
 	function germinateChildren() {
 	    var i, tc;
-	    pushVars(pushed, toPush)
+	    pushVars(pushed, toPush);
 	    for(i = 0; i < t.childNodes.length; ++i) {
 		tc = t.childNodes[i];
 		newElement.appendChild(germinate(d, tc, undefined, germState, pushed, context));
@@ -249,7 +250,6 @@ data_graft = (function() {
 	}
 
 	var i, j, a, an, av, dd, v;
-	var testResult = undefined;
 	var toPush = {};
 	var newElement = null;
 	
@@ -651,7 +651,7 @@ data_graft = (function() {
 
     function updateAttribute(target, attr, v, context, tracker) {
 	var currValue = target.getAttribute(attr);
-	var hasGot = currValue != null;
+	var hasGot = currValue !== null;
 	var shouldHave = v !== undefined && v !== null;
 	var f;
 
@@ -681,10 +681,9 @@ data_graft = (function() {
 		f = function() {
 		    target.setAttribute(attr, v);
 		    callHandler(target, context, 'postAddAttribute', tracker.dec, attr);
-		}
+		};
 		tracker.inc();
 		callHandler(target, context, 'preAddAttribute', f, attr);
-	    } else {
 	    }
 	}
     }
