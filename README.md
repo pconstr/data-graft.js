@@ -12,3 +12,5 @@ The intended scenario for data-graft.js is one where the front-end presents a vi
 Templates have enough information about the internal structure of the data to determine how to granularly update its presentation, and change hooks provide the opportunity to animate changes. So you feed data-graft.js the changed data and let it orchestrate the necessary DOM operations and animation calls.
 
 To learn more, read the [documentation](http://labs.perceptiveconstructs.com/data-graft/doc/doc.html) and check out the [catsagram demo](http://labs.perceptiveconstructs.com/catsagram)
+
+Download release 0.1 [plain](http://labs.perceptiveconstructs.com/data-graft/doc/data-graft-0.1.js) or [minified](http://labs.perceptiveconstructs.com/data-graft-0.1.min.js)
