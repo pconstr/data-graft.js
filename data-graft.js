@@ -177,7 +177,7 @@ data_graft = (function() {
 	var classIdx = 0;
 
 	function go() {
-	    var c, ch, chn;
+	    var c, ch;
 	    if(classIdx === classList.length) {
 		if(f !== undef) {
 		    f();
@@ -188,9 +188,8 @@ data_graft = (function() {
 	    classIdx = classIdx + 1;
 	    ch = context[c];
 	    if(ch !== undef) {
-		chn = ch[name];
-		if(chn !== undef) {
-		    chn(e, go, extra);
+		if(ch[name] !== undef) {
+		    ch[name](e, go, extra);
 		    return;
 		}
 	    }
@@ -741,7 +740,6 @@ data_graft = (function() {
 	    var unfinishedHandlersCount = 0;
 	    var startedEverything = false;
 	    var germState = initGermState();
-	    var start, finish;
 	    var tracker = {
 		'inc': function() {
 		    unfinishedHandlersCount = unfinishedHandlersCount + 1;
@@ -749,22 +747,19 @@ data_graft = (function() {
 		'dec': function() {
 		    unfinishedHandlersCount = unfinishedHandlersCount - 1;
 		    if(unfinishedHandlersCount === 0 && startedEverything) {
-			finish = context.finish;
-			if(finish !== undef) {
-			    finish();
+			if(context.finish !== undef) {
+			    context.finish();
 			}
 		    }
 		}
 	    };
-	    start = context.start;
-	    if(start !== undef) {
+	    if(context.start !== undef) {
 		context.start();
 	    }
 	    regenerateChild(this.output, d, this.template, germState, {}, context, tracker);
 	    startedEverything = true;
-	    finish = context.finish;
-	    if(finish !== undef && unfinishedHandlersCount === 0) {
-		finish();
+	    if(context.finish !== undef && unfinishedHandlersCount === 0) {
+		context.finish();
 	    }
 	}
     };
