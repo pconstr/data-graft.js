@@ -2,9 +2,11 @@
  * Licensed under the MIT license */
 
 data_graft = (function() {
+    var undef;
+
     function toStr(v) {
 	if(typeof(v) === 'number') {
-	    return ''+ v;
+	    return String(v);
 	} else {
 	    return v;
 	}
@@ -15,7 +17,7 @@ data_graft = (function() {
 	var i;
 	for(i = 0; i < l.length; ++i) {
 	    f = f[l[i]];
-	    if(f === undefined) {
+	    if(f === undef) {
 		return f;
 	    }
 	}
@@ -58,16 +60,16 @@ data_graft = (function() {
 	    return toStr(d);
 	} else {
 	    r = walkDots(v, pushed);
-	    if(r !== undefined) {
+	    if(r !== undef) {
 		return toStr(r);
 	    }
 	    if(typeof(d) === 'object' || typeof(d) === 'string') {
 		r = walkDots(v, d);
-		if(r !== undefined) {
+		if(r !== undef) {
 		    return toStr(r);
 		}
 	    }
-	    return undefined;
+	    return undef;
 	}
     }
 
@@ -83,7 +85,7 @@ data_graft = (function() {
 
     function isEmpty(v) {
 	var i;
-	if(v === undefined || v === null) {
+	if(v === undef || v === null) {
 	    return true;
 	}
 	if(typeof(v) === 'object') {
@@ -158,7 +160,7 @@ data_graft = (function() {
 			pv = avc[0];
 		    }
 		    av = d[pv];
-		    if(av !== undefined) {
+		    if(av !== undef) {
 			toPush[pn] = av;
 		    }
 		}
@@ -175,19 +177,20 @@ data_graft = (function() {
 	var classIdx = 0;
 
 	function go() {
-	    var c, ch;
+	    var c, ch, chn;
 	    if(classIdx === classList.length) {
-		if(f !== undefined) {
+		if(f !== undef) {
 		    f();
 		}
 		return;
 	    }
 	    c = classList[classIdx];
 	    classIdx = classIdx + 1;
-	    if(c in context) {
-		ch = context[c];
-		if(name in ch) {
-		    ch[name](e, go, extra);
+	    ch = context[c];
+	    if(ch !== undef) {
+		chn = ch[name];
+		if(chn !== undef) {
+		    chn(e, go, extra);
 		    return;
 		}
 	    }
@@ -221,7 +224,7 @@ data_graft = (function() {
 	    pushVars(pushed, toPush);
 	    for(i = 0; i < t.childNodes.length; ++i) {
 		tc = t.childNodes[i];
-		newElement.appendChild(germinate(d, tc, undefined, germState, pushed, context));
+		newElement.appendChild(germinate(d, tc, undef, germState, pushed, context));
 	    }	    
 	    popVars(pushed, toPush);
 	}
@@ -256,14 +259,15 @@ data_graft = (function() {
 	var variables = getAttributeVariables(t, d, toPush);
 
 	var subTemplate = null;
-	if('templateVariable' in variables) {
-	    subTemplate = document.getElementById(variables.templateVariable);
+	var templateVariable = variables.templateVariable;
+	if(templateVariable !== undef) {
+	    subTemplate = document.getElementById(templateVariable);
 	}
 
-	if(t.tagName !== undefined) {
+	if(t.tagName !== undef) {
 	    newElement = document.createElement(t.tagName);
 	    
-	    if(idx !== undefined) {
+	    if(idx !== undef) {
 		newElement.setAttribute('data-graft-idx', idx);
 	    }
 	}
@@ -275,12 +279,12 @@ data_graft = (function() {
 		    if(a.name.slice(0, 12) === 'data-graft--') {
 			an = a.name.slice(12);
 			av = getValue(d, a.value, pushed, context);
-			if(av !== undefined && av !== null) {
+			if(av !== undef && av !== null) {
 			    newElement.setAttribute(an, av);
 			}
 		    }
 		} else {
-		    if(a.name !== 'id' && a.value !== undefined) {
+		    if(a.name !== 'id' && a.value !== undef) {
 			newElement.setAttribute(a.name, a.value);
 		    }
 		}
@@ -297,14 +301,14 @@ data_graft = (function() {
 
 	var tc, di, keys;
 	// nodes created here are added inside newElement
-	if(variables.forVariable !== undefined) {
+	if(variables.forVariable !== undef) {
 	    keys = arrayKeys(d, variables.forVariable, pushed, context);
 	    testResult = keys.length > 0;
 	    for(i = 0; i < keys.length; ++i) {
 		germinateSingleChild(keys[i][0], d[keys[i][1]]);
 	    }
 	    germState.lastTestResult = testResult;
-	} else if(variables.eachVariable !== undefined) {
+	} else if(variables.eachVariable !== undef) {
 	    keys = objectKeys(d);
 	    testResult = keys.length > 0;
 	    for(i = 0; i < keys.length; ++i) {
@@ -312,23 +316,23 @@ data_graft = (function() {
 		germinateSingleChild(keys[i], d[keys[i]]);
 	    }
 	    germState.lastTestResult = testResult;
-	} else if(variables.ifVariable !== undefined) {
+	} else if(variables.ifVariable !== undef) {
 	    av = getValue(d, variables.ifVariable, pushed, context);
-	    testResult = av !== null && av !== undefined;
+	    testResult = av !== null && av !== undef;
 	    if(testResult) {
-		germinateChild(undefined, av, subTemplate !== null ? subTemplate : t);
+		germinateChild(undef, av, subTemplate !== null ? subTemplate : t);
 	    }
 	    germState.lastTestResult = testResult;
-	} else if(variables.elseVariable !== undefined) {
+	} else if(variables.elseVariable !== undef) {
 	    if(!germState.lastTestResult) {
 		germinateChildren();
 	    }
-	} else if(variables.textVariable !== undefined) {
+	} else if(variables.textVariable !== undef) {
 	    v = getValue(d, variables.textVariable, pushed, context);
-	    if(v !== null && v !== undefined) {
+	    if(v !== null && v !== undef) {
 		newElement.appendChild(document.createTextNode(getValue(d, variables.textVariable, pushed, context)));
 	    }
-	} else if(variables.elementVariable !== undefined) {
+	} else if(variables.elementVariable !== undef) {
 	    // FIXME: implement function to do comparison and callback if they exist
 	    newElement.appendChild(getValue(d, variables.elementVariable, pushed, context));
 	} else {
@@ -336,7 +340,7 @@ data_graft = (function() {
 	}
 
 	if(newElement !== null && t.nodeType === 1) {
-	    callHandler(newElement, context, 'init', undefined, d, pushed);
+	    callHandler(newElement, context, 'init', undef, d, pushed);
 	    // TODO: add support for cleanup as well
 	}
 
@@ -399,7 +403,7 @@ data_graft = (function() {
 	skipTextNodes();
 
 	var keys;
-	if(forVariable !== undefined) {
+	if(forVariable !== undef) {
 	    keys = arrayKeys(d, forVariable, pushed, context);
 	} else {
 	    keys = objectKeys(d);
@@ -411,7 +415,7 @@ data_graft = (function() {
 	while(iK < keys.length && target !== null) {
 	    idx = getTargetIdx(target);
 
-	    if(forVariable !== undefined) {
+	    if(forVariable !== undef) {
 		key = keys[iK][0];
 		keyi = keys[iK][1];
 	    } else {
@@ -427,11 +431,11 @@ data_graft = (function() {
 		skipTextNodes();
 	    } else if(idx > key) {
 		// missing target, needs to be added
-		if(eachVariable !== undefined) {
+		if(eachVariable !== undef) {
 		    pushed[eachVariable] = key;
 		}
 		newElement = germinate(d[keyi], tt, key, germState, pushed, context);
-		if(eachVariable !== undefined) {
+		if(eachVariable !== undef) {
 		    delete pushed[eachVariable];
 		}
 
@@ -439,11 +443,11 @@ data_graft = (function() {
 		
 		++iK;
 	    } else {
-		if(eachVariable !== undefined) {
+		if(eachVariable !== undef) {
 		    pushed[eachVariable] = key;
 		}
 		regenerateChild(target, d[keyi], tt, germState, pushed, context, tracker);
-		if(eachVariable !== undefined) {
+		if(eachVariable !== undef) {
 		    delete pushed[eachVariable];
 		}
 		++iK;
@@ -455,7 +459,7 @@ data_graft = (function() {
 	
 	while(iK < keys.length) {
 
-	    if(forVariable !== undefined) {
+	    if(forVariable !== undef) {
 		key = keys[iK][0];
 		keyi = keys[iK][1];
 	    } else {
@@ -463,7 +467,7 @@ data_graft = (function() {
 		keyi = key;
 	    }
 
-	    if(eachVariable !== undefined) {
+	    if(eachVariable !== undef) {
 		pushed[eachVariable] = key;
 	    }
 
@@ -471,7 +475,7 @@ data_graft = (function() {
 
 	    appendSequenceElement(tParent, newElement, context, tracker);
 	    
-	    if(eachVariable !== undefined) {
+	    if(eachVariable !== undef) {
 		delete pushed[eachVariable];
 	    }
 	    
@@ -495,8 +499,9 @@ data_graft = (function() {
 	var variables = getAttributeVariables(t, d, toPush);
 
 	var subTemplate = null;
-	if('templateVariable' in variables) {
-	    subTemplate = document.getElementById(variables.templateVariable);
+	var templateVariable = variables.templateVariable;
+	if(templateVariable) {
+	    subTemplate = document.getElementById(templateVariable);
 	}
 
 	var newElement = null;
@@ -519,7 +524,7 @@ data_graft = (function() {
 	    }
 	}
 	
-	if(t.tagName !== undefined) {
+	if(t.tagName !== undef) {
 	    // check tag
 	    
 	    var tagIn, tagIsIn;
@@ -527,9 +532,9 @@ data_graft = (function() {
 
 	    pushVars(pushed, toPush);
 	    
-	    if(variables.ifVariable !== undefined) {
+	    if(variables.ifVariable !== undef) {
 		av = getValue(d, variables.ifVariable, pushed, context);
-		tagIn = (av !== null && av !== undefined);
+		tagIn = (av !== null && av !== undef);
 		tagIsIn = target.childNodes.length > 0;
 		
 		if(tagIn) {
@@ -538,7 +543,7 @@ data_graft = (function() {
 			regenerate(target.childNodes[0], av, subTemplate !== null ? subTemplate.childNodes[0] : t.childNodes[0], germState, pushed, context, tracker);
 		    } else {
 			// need to add if
-			newElement = germinate(d, t, undefined, germState, pushed, context);
+			newElement = germinate(d, t, undef, germState, pushed, context);
 			replaceIfElement(target, newElement, context, tracker);
 		    }
 		} else {
@@ -548,7 +553,7 @@ data_graft = (function() {
 		    }
 		}
 		germState.lastTestResult = tagIn;
-	    } else if(variables.elseVariable !== undefined) {
+	    } else if(variables.elseVariable !== undef) {
 		tagIn = !germState.lastTestResult;
 		tagIsIn = target.childNodes.length > 0;
 		
@@ -558,7 +563,7 @@ data_graft = (function() {
 			regenerate(target.childNodes[0], d, t.childNodes[0], germState, pushed, context, tracker);
 		    } else {
 			// need to add else
-			newElement = germinate(d, t, undefined, germState, pushed, context);
+			newElement = germinate(d, t, undef, germState, pushed, context);
 			replaceElseElement(target, newElement, context, tracker);
 		    }
 		} else {
@@ -567,16 +572,16 @@ data_graft = (function() {
 			cutElseElement(target, context, tracker);
 		    }
 		}
-	    } else if(variables.textVariable !== undefined) {
+	    } else if(variables.textVariable !== undef) {
 		v = getValue(d, variables.textVariable, pushed, context);
 		setTextElement(target, v, context, tracker);
-	    } else if(variables.elementVariable !== undefined) {
+	    } else if(variables.elementVariable !== undef) {
 		ne = getValue(d, variables.elementVariable, pushed, context);
 		target.replaceChild(ne, target.childNodes[0]);
-	    } else if(variables.eachVariable !== undefined) {
-		germState.lastTestResult = regenerateSequence(target, d, t.childNodes[0], germState, pushed, undefined, variables.eachVariable, context, tracker);
-	    } else if(variables.forVariable !== undefined) {
-		germState.lastTestResult = regenerateSequence(target, d, t.childNodes[0], germState, pushed, variables.forVariable, undefined, context, tracker);
+	    } else if(variables.eachVariable !== undef) {
+		germState.lastTestResult = regenerateSequence(target, d, t.childNodes[0], germState, pushed, undef, variables.eachVariable, context, tracker);
+	    } else if(variables.forVariable !== undef) {
+		germState.lastTestResult = regenerateSequence(target, d, t.childNodes[0], germState, pushed, variables.forVariable, undef, context, tracker);
 	    } else {
 		if(target.childNodes.length > 0 && t.childNodes.length > 0) {
 		    regenerate(target.childNodes[0], d, t.childNodes[0], germState, pushed, context, tracker);
@@ -615,7 +620,7 @@ data_graft = (function() {
     }
 
     function setTextElement(target, v, context, tracker) {
-	var shouldBeIn = v !== null && v !== undefined;
+	var shouldBeIn = v !== null && v !== undef;
 	var isIn = target.childNodes.length > 0;
 	var f;
 
@@ -652,7 +657,7 @@ data_graft = (function() {
     function updateAttribute(target, attr, v, context, tracker) {
 	var currValue = target.getAttribute(attr);
 	var hasGot = currValue !== null;
-	var shouldHave = v !== undefined && v !== null;
+	var shouldHave = v !== undef && v !== null;
 	var f;
 
 	if(hasGot) {
@@ -725,7 +730,7 @@ data_graft = (function() {
     }
 
     function initGermState() {
-	return {lastTestResult:undefined};
+	return {lastTestResult:undef};
     }
     
     /*********************/
@@ -736,24 +741,30 @@ data_graft = (function() {
 	    var unfinishedHandlersCount = 0;
 	    var startedEverything = false;
 	    var germState = initGermState();
+	    var start, finish;
 	    var tracker = {
 		'inc': function() {
 		    unfinishedHandlersCount = unfinishedHandlersCount + 1;
 		},
 		'dec': function() {
 		    unfinishedHandlersCount = unfinishedHandlersCount - 1;
-		    if(unfinishedHandlersCount === 0 && startedEverything && 'finish' in context) {
-			context.finish();
+		    if(unfinishedHandlersCount === 0 && startedEverything) {
+			finish = context.finish;
+			if(finish !== undef) {
+			    finish();
+			}
 		    }
 		}
 	    };
-	    if('start' in context) {
+	    start = context.start;
+	    if(start !== undef) {
 		context.start();
 	    }
 	    regenerateChild(this.output, d, this.template, germState, {}, context, tracker);
 	    startedEverything = true;
-	    if('finish' in context && unfinishedHandlersCount === 0) {
-		context.finish();
+	    finish = context.finish;
+	    if(finish !== undef && unfinishedHandlersCount === 0) {
+		finish();
 	    }
 	}
     };
@@ -764,7 +775,7 @@ data_graft = (function() {
 	    var germState = initGermState();
 	    g.context = context;
 	    g.template = t;
-	    g.output = germinate(d, t, undefined, germState, {}, context);
+	    g.output = germinate(d, t, undef, germState, {}, context);
 	    return g;
 	}
     };
