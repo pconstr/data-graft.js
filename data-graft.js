@@ -347,10 +347,13 @@ data_graft = (function() {
     }
 
     function regenerate(target, d, t, germState, pushed, context, tracker) {
+	var targetN, tN;
 	while(t !== null && target !== null) {
+	    targetN = target.nextSibling;
+	    tN  = t.nextSibling;
 	    regenerateChild(target, d, t, germState, pushed, context, tracker);
-	    target = target.nextSibling;
-	    t = t.nextSibling;
+	    target = targetN;
+	    t = tN;
 	}
     }
 
