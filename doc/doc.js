@@ -359,7 +359,7 @@ var handlers = (function() {
 	'_all_': {
 	    preInsertText: function(e, finished) {
 		$(e).hide();
-		$(e).fadeTo(0);
+		$(e).fadeTo(0, 0);
 		finished();
 	    },
 
@@ -397,7 +397,7 @@ var handlers = (function() {
 
 	    postInsertIf: function(e, finished) {
 		$(e).hide();
-		$(e).fadeTo(0);
+		$(e).fadeTo(0, 0);
 		finished();
 		$(e).animate({'opacity': 1}, 300, finished);
 	    },
@@ -416,14 +416,14 @@ var handlers = (function() {
 
 	    postInsertElse: function(e, finished) {
 		$(e).hide();
-		$(e).fadeTo(0);
+		$(e).fadeTo(0, 0);
 		finished();
 		$(e).animate({'opacity': 1}, 300, finished);
 	    },
 
 	    preInsertSequence: function(e, finished) {
 		$(e).hide();
-		$(e).fadeTo(0);
+		$(e).fadeTo(0, 0);
 		finished();
 	    },
 	    postInsertSequence: function(e, finished) {
