@@ -104,7 +104,25 @@ data_graft = (function() {
 	return false;
     }
 
-    function objectKeys(o) {
+    function sortFunction(cl, context) {
+	var c = context[cl];
+	if(c !== undefined && c.sort !== undefined)
+	    return c.sort;
+	if(context._all_ !== undefined && context._all_.sort !== undefined)
+	    return context._all_.sort;
+	return undefined
+    }
+
+    function stringSort(a, b) {
+	if(a < b)
+	    return -1;
+	else if(a > b)
+	    return 1;
+	else
+	    return 0;
+    }
+
+    function objectKeys(o, sf) {
 	var keys = [];
 	var oi;
 	for(oi in o) {
@@ -112,11 +130,11 @@ data_graft = (function() {
 		keys.push(oi);
 	    }
 	}
-	keys.sort();
+	keys.sort(sf);
 	return keys;
     }
 
-    function arrayKeys(a, v, pushed, context) {
+    function arrayKeys(a, v, pushed, sf, context) {
 	var keyPairs = [];
 	var i;
 	for(i = 0; i < a.length; ++i) {
@@ -125,7 +143,10 @@ data_graft = (function() {
 	    delete pushed._idx_;
 	}
 	keyPairs.sort(function(k1, k2) {
-	    return k1[0] - k2[0];
+	    if(sf)
+		return sf(k1[0], k2[0]);
+	    else
+		return k1[0] - k2[0];
 	});
 	return keyPairs;
     }
@@ -217,6 +238,16 @@ data_graft = (function() {
 	}
     }
 
+    function singleChild(e) {
+	var i, c;
+	for(i = 0; i < e.childNodes.length; ++i) {
+	    c = e.childNodes[i];
+	    if(c.nodeType === 1)
+		return c;
+	}
+	return null;
+    }
+
     function germinate(d, t, idx, germState, pushed, context) {
 	function germinateChildren() {
 	    var i, tc;
@@ -229,15 +260,10 @@ data_graft = (function() {
 	}
 
 	function germinateSingleChild(di, dc) {
-	    var j, tc;
 	    pushVars(pushed, toPush);
-	    for(j = 0; j < t.childNodes.length; ++j) {
-		tc = t.childNodes[j];
-		if(tc.nodeType === 1) {
-		    newElement.appendChild(germinate(dc, tc, di, germState, pushed, context));
-		    break;
-		}
-	    }
+	    var tc = singleChild(t);
+	    if(tc !== null)
+		newElement.appendChild(germinate(dc, tc, di, germState, pushed, context));
 	    popVars(pushed, toPush);
 	}
 	
@@ -301,14 +327,14 @@ data_graft = (function() {
 	var tc, di, keys;
 	// nodes created here are added inside newElement
 	if(variables.forVariable !== undef) {
-	    keys = arrayKeys(d, variables.forVariable, pushed, context);
+	    keys = arrayKeys(d, variables.forVariable, pushed, sortFunction(singleChild(t).className, context), context);
 	    testResult = keys.length > 0;
 	    for(i = 0; i < keys.length; ++i) {
 		germinateSingleChild(keys[i][0], d[keys[i][1]]);
 	    }
 	    germState.lastTestResult = testResult;
 	} else if(variables.eachVariable !== undef) {
-	    keys = objectKeys(d);
+	    keys = objectKeys(d, sortFunction(singleChild(t).className, context));
 	    testResult = keys.length > 0;
 	    for(i = 0; i < keys.length; ++i) {
 		toPush[variables.eachVariable] = keys[i];
@@ -404,15 +430,17 @@ data_graft = (function() {
 
 	skipTextNodes();
 
+	var sf = sortFunction(singleChild(t.parentNode).className, context);
 	var keys;
 	if(forVariable !== undef) {
-	    keys = arrayKeys(d, forVariable, pushed, context);
+	    keys = arrayKeys(d, forVariable, pushed, sf, context);
 	} else {
-	    keys = objectKeys(d);
+	    keys = objectKeys(d, sf);
 	}
 
 	var iK = 0;
 	var key;
+	var cmp;
 
 	while(iK < keys.length && target !== null) {
 	    idx = getTargetIdx(target);
@@ -425,13 +453,15 @@ data_graft = (function() {
 		keyi = key;
 	    }
 
-	    if(idx < key) {
+	    cmp = sf ? sf(idx, key) : stringSort(idx, key);
+
+	    if(cmp < 0) {
 		// unexpected target, needs to be removed
 		e = target;
 		target = target.nextSibling;
 		removeSequenceElement(e, context, tracker);
 		skipTextNodes();
-	    } else if(idx > key) {
+	    } else if(cmp > 0) {
 		// missing target, needs to be added
 		if(eachVariable !== undef) {
 		    pushed[eachVariable] = key;
