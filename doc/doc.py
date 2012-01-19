@@ -7,18 +7,22 @@ from bottle import route, static_file
 
 root = os.path.dirname(__file__)
 
-@route('/data-graft/doc/data-graft-0.1.2.min.js')
+@route('/data-graft-0.1.2.min.js')
 def download_min():
     return static_file('data-graft-0.1.2.min.js', root=root+'/../dist/')
 
-@route('/data-graft/doc/data-graft-0.1.2.js')
+@route('/data-graft-0.1.2.js')
 def download():
     return static_file('data-graft-0.1.2.js', root=root+'/../dist/')
 
-@route('/data-graft/doc/:filename')
+@route('/')
+def server_index():
+    return static_file('doc.html', root=root)
+
+@route('/:filename')
 def server_static(filename):
     return static_file(filename, root=root)
 
-@route('/data-graft/doc/stuff/:filename')
+@route('/stuff/:filename')
 def server_static(filename):
     return static_file(filename, root=root+ '/../stuff')
