@@ -1,7 +1,11 @@
+/*jslint white: true, browser: true, plusplus: true, vars: true, nomen: true, bitwise: true*/
+
 /* Copyright 2010-2011, Carlos Guerreiro
  * Licensed under the MIT license */
 
-data_graft = (function() {
+"use strict";
+
+var data_graft = (function () {
   var undef;
 
   function toStr(v) {
@@ -28,6 +32,16 @@ data_graft = (function() {
     function F() {}
     F.prototype = o;
     return new F();
+  }
+
+  function isEmptyObject(o) {
+    var i;
+    for(i in o) {
+      if(o.hasOwnProperty(i)) {
+        return false;
+      }
+    }
+    return true;
   }
 
   function override(d, toPush) {
@@ -73,16 +87,6 @@ data_graft = (function() {
     }
   }
 
-  function isEmptyObject(o) {
-    var i;
-    for(i in o) {
-      if(o.hasOwnProperty(i)) {
-        return false;
-      }
-    }
-    return true;
-  }
-
   function isEmpty(v) {
     var i;
     if(v === undef || v === null) {
@@ -106,20 +110,23 @@ data_graft = (function() {
 
   function sortFunction(cl, context) {
     var c = context[cl];
-    if(c !== undefined && c.sort !== undefined)
+    if(c !== undefined && c.sort !== undefined) {
       return c.sort;
-    if(context._all_ !== undefined && context._all_.sort !== undefined)
+    }
+    if(context._all_ !== undefined && context._all_.sort !== undefined) {
       return context._all_.sort;
-    return undefined
+    }
+    return undefined;
   }
 
   function stringSort(a, b) {
-    if(a < b)
+    if(a < b) {
       return -1;
-    else if(a > b)
+    } else if(a > b) {
       return 1;
-    else
+    } else {
       return 0;
+    }
   }
 
   function objectKeys(o, sf) {
@@ -142,11 +149,12 @@ data_graft = (function() {
       keyPairs.push([getValue(a[i], v, pushed, context), i]);
       delete pushed._idx_;
     }
-    keyPairs.sort(function(k1, k2) {
-      if(sf)
+    keyPairs.sort(function (k1, k2) {
+      if(sf) {
         return sf(k1[0], k2[0]);
-      else
+      } else {
         return k1[0] - k2[0];
+      }
     });
     return keyPairs;
   }
@@ -242,13 +250,17 @@ data_graft = (function() {
     var i, c;
     for(i = 0; i < e.childNodes.length; ++i) {
       c = e.childNodes[i];
-      if(c.nodeType === 1)
+      if(c.nodeType === 1) {
         return c;
+      }
     }
     return null;
   }
 
   function germinate(d, t, idx, germState, pushed, context) {
+    var toPush = {};
+    var newElement = null;
+
     function germinateChildren() {
       var i, tc;
       pushVars(pushed, toPush);
@@ -262,8 +274,9 @@ data_graft = (function() {
     function germinateSingleChild(di, dc) {
       pushVars(pushed, toPush);
       var tc = singleChild(t);
-      if(tc !== null)
+      if(tc !== null) {
         newElement.appendChild(germinate(dc, tc, di, germState, pushed, context));
+      }
       popVars(pushed, toPush);
     }
 
@@ -278,8 +291,6 @@ data_graft = (function() {
     }
 
     var i, j, a, an, av, dd, v;
-    var toPush = {};
-    var newElement = null;
 
     var variables = getAttributeVariables(t, d, toPush);
 
@@ -325,6 +336,7 @@ data_graft = (function() {
     }
 
     var tc, di, keys;
+    var testResult;
     // nodes created here are added inside newElement
     if(variables.forVariable !== undef) {
       keys = arrayKeys(d, variables.forVariable, pushed, sortFunction(singleChild(t).className, context), context);
@@ -372,6 +384,8 @@ data_graft = (function() {
     return newElement;
   }
 
+  var regenerateChild;
+
   function regenerate(target, d, t, germState, pushed, context, tracker) {
     var targetN, tN;
     while(t !== null && target !== null) {
@@ -406,7 +420,35 @@ data_graft = (function() {
     return idx;
   }
 
+  function removeSequenceElement(e, context, tracker) {
+    var f = function () {
+      e.parentNode.removeChild(e);
+      tracker.dec();
+    };
+    tracker.inc();
+    callHandler(e, context, 'preRemoveSequence', f);
+  }
+
+  function appendSequenceElement(tParent, e, context, tracker) {
+    var f = function () {
+      tParent.appendChild(e);
+      callHandler(e, context, 'postInsertSequence', tracker.dec);
+    };
+    tracker.inc();
+    callHandler(e, context, 'preInsertSequence', f);
+  }
+
+  function insertSequenceElement(target, e, context, tracker) {
+    var f = function () {
+      target.parentNode.insertBefore(e, target);
+      callHandler(e, context, 'postInsertSequence', tracker.dec);
+    };
+    tracker.inc();
+    callHandler(e, context, 'preInsertSequence', f);
+  }
+
   function regenerateSequence(tParent, d, t, germState, pushed, forVariable, eachVariable, context, tracker) {
+    var target;
 
     function skipTextNodes() {
       while(target !== null && target.nodeType === 3) {
@@ -414,7 +456,6 @@ data_graft = (function() {
       }
     }
 
-    var target;
     if(tParent.childNodes.length > 0) {
       target = tParent.childNodes[0];
     } else {
@@ -440,6 +481,7 @@ data_graft = (function() {
 
     var iK = 0;
     var key;
+    var keyi;
     var cmp;
 
     while(iK < keys.length && target !== null) {
@@ -525,7 +567,117 @@ data_graft = (function() {
     return keys.length > 0;
   }
 
-  function regenerateChild(target, d, t, germState, pushed, context, tracker) {
+  function setTextElement(target, v, context, tracker) {
+    var shouldBeIn = v !== null && v !== undef;
+    var isIn = target.childNodes.length > 0;
+    var f;
+
+    if(shouldBeIn) {
+      if(isIn) {
+        if(target.childNodes[0].nodeValue !== v) {
+          f = function () {
+            target.childNodes[0].nodeValue = v;
+            callHandler(target, context, 'postUpdateText', tracker.dec);
+          };
+          tracker.inc();
+          callHandler(target, context, 'preUpdateText', f);
+        }
+      } else {
+        f = function () {
+          target.appendChild(document.createTextNode(v));
+          callHandler(target, context, 'postInsertText', tracker.dec);
+        };
+        tracker.inc();
+        callHandler(target, context, 'preInsertText', f);
+      }
+    } else {
+      if(isIn) {
+        f = function () {
+          target.removeChild(target.childNodes[0]);
+          callHandler(target, context, 'postRemoveText', tracker.dec);
+        };
+        tracker.inc();
+        callHandler(target, context, 'preRemoveText', f);
+      }
+    }
+  }
+
+  function cutElseElement(target, context, tracker) {
+    var f = function () {
+      removeAllChildren(target);
+      callHandler(target, context, 'postRemoveElse', tracker.dec);
+    };
+    tracker.inc();
+    callHandler(target, context, 'preRemoveElse', f);
+  }
+
+  function replaceElseElement(target, e, context, tracker) {
+    var f = function () {
+      target.parentNode.replaceChild(e, target);
+      callHandler(e, context, 'postInsertElse', tracker.dec);
+    };
+    tracker.inc();
+    callHandler(target, context, 'preInsertElse', f);
+  }
+
+  function cutIfElement(target, context, tracker) {
+    var f = function () {
+      removeAllChildren(target);
+      callHandler(target, context, 'postRemoveIf', tracker.dec);
+    };
+    tracker.inc();
+    callHandler(target, context, 'preRemoveIf', f);
+  }
+
+  function replaceIfElement(target, e, context, tracker) {
+    var f = function () {
+      target.parentNode.replaceChild(e, target);
+      callHandler(e, context, 'postInsertIf', tracker.dec);
+    };
+    tracker.inc();
+    callHandler(target, context, 'preInsertIf', f);
+  }
+
+  function updateAttribute(target, attr, v, context, tracker) {
+    var currValue = target.getAttribute(attr);
+    var hasGot = currValue !== null;
+    var shouldHave = v !== undef && v !== null;
+    var f;
+
+    if(hasGot) {
+      if(shouldHave) {
+        if(currValue !== v) {
+          // changed
+          f = function () {
+            target.setAttribute(attr, v);
+            callHandler(target, context, 'postUpdateAttribute', tracker.dec, attr);
+          };
+          tracker.inc();
+          callHandler(target, context, 'preUpdateAttribute', f, attr);
+        }
+      } else {
+        // remove
+        f = function () {
+          target.removeAttribute(attr);
+          callHandler(target, context, 'postRemoveAttribute', tracker.dec, attr);
+        };
+        tracker.inc();
+        callHandler(target, context, 'preRemoveAttribute', f, attr);
+      }
+    } else {
+      if(shouldHave) {
+        // add
+        f = function () {
+          target.setAttribute(attr, v);
+          callHandler(target, context, 'postAddAttribute', tracker.dec, attr);
+        };
+        tracker.inc();
+        callHandler(target, context, 'preAddAttribute', f, attr);
+      }
+    }
+  }
+
+  regenerateChild = function (target, d, t, germState, pushed, context, tracker) {
     var toPush = {};
 
     var variables = getAttributeVariables(t, d, toPush);
@@ -538,6 +690,9 @@ data_graft = (function() {
 
     var newElement = null;
     var av, v;
+    var an;
+    var i;
+    var a;
 
     // FIXME: some redundancy with germinate
     if(t.attributes !== null) {
@@ -622,162 +777,23 @@ data_graft = (function() {
 
       popVars(pushed, toPush);
     }
-  }
-
-  function insertSequenceElement(target, e, context, tracker) {
-    var f = function() {
-      target.parentNode.insertBefore(e, target);
-      callHandler(e, context, 'postInsertSequence', tracker.dec);
-    };
-    tracker.inc();
-    callHandler(e, context, 'preInsertSequence', f);
-  }
-
-  function appendSequenceElement(tParent, e, context, tracker) {
-    var f = function() {
-      tParent.appendChild(e);
-      callHandler(e, context, 'postInsertSequence', tracker.dec);
-    };
-    tracker.inc();
-    callHandler(e, context, 'preInsertSequence', f);
-  }
-
-  function removeSequenceElement(e, context, tracker) {
-    var f = function() {
-      e.parentNode.removeChild(e);
-      tracker.dec();
-    };
-    tracker.inc();
-    callHandler(e, context, 'preRemoveSequence', f);
-  }
-
-  function setTextElement(target, v, context, tracker) {
-    var shouldBeIn = v !== null && v !== undef;
-    var isIn = target.childNodes.length > 0;
-    var f;
-
-    if(shouldBeIn) {
-      if(isIn) {
-        if(target.childNodes[0].nodeValue !== v) {
-          f = function() {
-            target.childNodes[0].nodeValue = v;
-            callHandler(target, context, 'postUpdateText', tracker.dec);
-          };
-          tracker.inc();
-          callHandler(target, context, 'preUpdateText', f);
-        }
-      } else {
-        f = function() {
-          target.appendChild(document.createTextNode(v));
-          callHandler(target, context, 'postInsertText', tracker.dec);
-        };
-        tracker.inc();
-        callHandler(target, context, 'preInsertText', f);
-      }
-    } else {
-      if(isIn) {
-        f = function() {
-          target.removeChild(target.childNodes[0]);
-          callHandler(target, context, 'postRemoveText', tracker.dec);
-        };
-        tracker.inc();
-        callHandler(target, context, 'preRemoveText', f);
-      }
-    }
-  }
-
-  function updateAttribute(target, attr, v, context, tracker) {
-    var currValue = target.getAttribute(attr);
-    var hasGot = currValue !== null;
-    var shouldHave = v !== undef && v !== null;
-    var f;
-
-    if(hasGot) {
-      if(shouldHave) {
-        if(currValue !== v) {
-          // changed
-          f = function() {
-            target.setAttribute(attr, v);
-            callHandler(target, context, 'postUpdateAttribute', tracker.dec, attr);
-          };
-          tracker.inc();
-          callHandler(target, context, 'preUpdateAttribute', f, attr);
-        }
-      } else {
-        // remove
-        f = function() {
-          target.removeAttribute(attr);
-          callHandler(target, context, 'postRemoveAttribute', tracker.dec, attr);
-        };
-        tracker.inc();
-        callHandler(target, context, 'preRemoveAttribute', f, attr);
-      }
-    } else {
-      if(shouldHave) {
-        // add
-        f = function() {
-          target.setAttribute(attr, v);
-          callHandler(target, context, 'postAddAttribute', tracker.dec, attr);
-        };
-        tracker.inc();
-        callHandler(target, context, 'preAddAttribute', f, attr);
-      }
-    }
-  }
-
-  function replaceIfElement(target, e, context, tracker) {
-    var f = function() {
-      target.parentNode.replaceChild(e, target);
-      callHandler(e, context, 'postInsertIf', tracker.dec);
-    };
-    tracker.inc();
-    callHandler(target, context, 'preInsertIf', f);
-  }
-
-  function replaceElseElement(target, e, context, tracker) {
-    var f = function() {
-      target.parentNode.replaceChild(e, target);
-      callHandler(e, context, 'postInsertElse', tracker.dec);
-    };
-    tracker.inc();
-    callHandler(target, context, 'preInsertElse', f);
-  }
-
-  function cutIfElement(target, context, tracker) {
-    var f = function() {
-      removeAllChildren(target);
-      callHandler(target, context, 'postRemoveIf', tracker.dec);
-    };
-    tracker.inc();
-    callHandler(target, context, 'preRemoveIf', f);
-  }
-
-  function cutElseElement(target, context, tracker) {
-    var f = function() {
-      removeAllChildren(target);
-      callHandler(target, context, 'postRemoveElse', tracker.dec);
-    };
-    tracker.inc();
-    callHandler(target, context, 'preRemoveElse', f);
-  }
+  };
 
   function initGermState() {
     return {lastTestResult:undef};
   }
 
-  /*********************/
-
   var graftProto = {
-    update: function(d) {
+    update: function (d) {
       var context = this.context;
       var unfinishedHandlersCount = 0;
       var startedEverything = false;
       var germState = initGermState();
       var tracker = {
-        'inc': function() {
+        'inc': function () {
           unfinishedHandlersCount = unfinishedHandlersCount + 1;
         },
-        'dec': function() {
+        'dec': function () {
           unfinishedHandlersCount = unfinishedHandlersCount - 1;
           if(unfinishedHandlersCount === 0 && startedEverything) {
             if(context.finish !== undef) {
@@ -798,7 +814,7 @@ data_graft = (function() {
   };
 
   return {
-    germ: function(d, t, context) {
+    germ: function (d, t, context) {
       var g = object(graftProto);
       var germState = initGermState();
       g.context = context;
