@@ -357,7 +357,7 @@ var data_graft = (function () {
       av = getValue(d, variables.ifVariable, pushed, context);
       testResult = av !== null && av !== undef;
       if(testResult) {
-        germinateChild(undef, av, subTemplate !== null ? subTemplate : t);
+        germinateChild(variables.ifVariable, av, subTemplate !== null ? subTemplate : t);
       }
       germState.lastTestResult = testResult;
     } else if(variables.elseVariable !== undef) {
