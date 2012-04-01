@@ -284,7 +284,7 @@ jQuery(document).ready(function() {
 	    if(j > 0) {
 		graft.update(input[j]);
 	    }
-	    
+
 	    matched = matched && compareDOM(graft.output, $('#expected_'+ i+ '_'+ j)[0]);
 	}
 	$('#id_'+ i).addClass(matched ? 'OK' : 'failed');

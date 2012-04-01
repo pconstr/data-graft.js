@@ -354,13 +354,15 @@ var data_graft = (function () {
       }
       germState.lastTestResult = testResult;
     } else if(variables.ifVariable !== undef) {
+      newElement.setAttribute('data-graft-if', variables.ifVariable);
       av = getValue(d, variables.ifVariable, pushed, context);
       testResult = av !== null && av !== undef;
       if(testResult) {
-        germinateChild(variables.ifVariable, av, subTemplate !== null ? subTemplate : t);
+        germinateChild(undef, av, subTemplate !== null ? subTemplate : t);
       }
       germState.lastTestResult = testResult;
     } else if(variables.elseVariable !== undef) {
+      newElement.setAttribute('data-graft-else', variables.elseVariable);
       if(!germState.lastTestResult) {
         germinateChildren();
       }
