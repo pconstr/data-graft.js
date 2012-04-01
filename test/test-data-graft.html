@@ -14,444 +14,444 @@
 
     <div class="hidden">
 
-    <span id="tpl_1" data-graft-text=""></span>
-    <span id="expected_1_0">graft</span>
-    <span id="expected_1_1">graft</span>
-    <span id="expected_1_2" class="updated">data</span>
+      <span id="tpl_1" data-graft-text=""></span>
+      <span id="expected_1_0">graft</span>
+      <span id="expected_1_1">graft</span>
+      <span id="expected_1_2" class="updated">data</span>
 
-    <div id="tpl_2">
-      <span data-graft-text=""></span>
-      <span> & </span>
-      <span data-graft-text=""></span>
-    </div>
-    <div id="expected_2_0">
-      <span>graft</span>
-      <span> & </span>
-      <span>graft</span>
-    </div>
-    <div id="expected_2_1">
-      <span>graft</span>
-      <span> & </span>
-      <span>graft</span>
-    </div>
-    <div id="expected_2_2">
-      <span class="updated">data</span>
-      <span> & </span>
-      <span class="updated">data</span>
-    </div>
+      <div id="tpl_2">
+        <span data-graft-text=""></span>
+        <span> & </span>
+        <span data-graft-text=""></span>
+      </div>
+      <div id="expected_2_0">
+        <span>graft</span>
+        <span> & </span>
+        <span>graft</span>
+      </div>
+      <div id="expected_2_1">
+        <span>graft</span>
+        <span> & </span>
+        <span>graft</span>
+      </div>
+      <div id="expected_2_2">
+        <span class="updated">data</span>
+        <span> & </span>
+        <span class="updated">data</span>
+      </div>
 
-    <div id="tpl_3">
-      <span data-graft-text="a"></span>
-      <span> some </span>
-      <span data-graft-text="b"></span>
-    </div>
-    <div id="expected_3_0">
-      <span>graft</span>
-      <span> some </span>
-      <span>data</span>
-    </div>
-    <div id="expected_3_1">
-      <span>graft</span>
-      <span> some </span>
-      <span>data</span>
-    </div>
-    <div id="expected_3_2">
-      <span>graft</span>
-      <span> some </span>
-      <span class="updated">other</span>
-    </div>
+      <div id="tpl_3">
+        <span data-graft-text="a"></span>
+        <span> some </span>
+        <span data-graft-text="b"></span>
+      </div>
+      <div id="expected_3_0">
+        <span>graft</span>
+        <span> some </span>
+        <span>data</span>
+      </div>
+      <div id="expected_3_1">
+        <span>graft</span>
+        <span> some </span>
+        <span>data</span>
+      </div>
+      <div id="expected_3_2">
+        <span>graft</span>
+        <span> some </span>
+        <span class="updated">other</span>
+      </div>
 
-    <div id="tpl_4" data-graft-if="inside">
-      <span data-graft-text="a"></span>
-      <span> inside</span>
-    </div>
-    <div id="expected_4_0" data-graft-if="inside">
-      <span>data</span>
-      <span> inside</span>
-    </div>
-    <div id="expected_4_1" data-graft-if="inside">
-      <span>data</span>
-      <span> inside</span>
-    </div>
-    <div id="expected_4_2" data-graft-if="inside">
-      <span class="updated">other</span>
-      <span> inside</span>
-    </div>
+      <div id="tpl_4" data-graft-if="inside">
+        <span data-graft-text="a"></span>
+        <span> inside</span>
+      </div>
+      <div id="expected_4_0" data-graft-if="inside">
+        <span>data</span>
+        <span> inside</span>
+      </div>
+      <div id="expected_4_1" data-graft-if="inside">
+        <span>data</span>
+        <span> inside</span>
+      </div>
+      <div id="expected_4_2" data-graft-if="inside">
+        <span class="updated">other</span>
+        <span> inside</span>
+      </div>
 
-    <div id="tpl_5" data-graft-push="b" data-graft-if="inside">
-      <span data-graft-text="a"></span>
-      <span> & </span>
-      <span data-graft-text="b"></span>
-    </div>
-    <div id="expected_5_0" data-graft-if="inside">
-      <span>inside</span>
-      <span> & </span>
-      <span>outside</span>
-    </div>
-    <div id="expected_5_1" data-graft-if="inside">
-      <span>inside</span>
-      <span> & </span>
-      <span class="updated">other</span>
-    </div>
-    <div id="expected_5_2" data-graft-if="inside">
-      <span class="updated">other</span>
-      <span> & </span>
-      <span>outside</span>
-    </div>
+      <div id="tpl_5" data-graft-push="b" data-graft-if="inside">
+        <span data-graft-text="a"></span>
+        <span> & </span>
+        <span data-graft-text="b"></span>
+      </div>
+      <div id="expected_5_0" data-graft-if="inside">
+        <span>inside</span>
+        <span> & </span>
+        <span>outside</span>
+      </div>
+      <div id="expected_5_1" data-graft-if="inside">
+        <span>inside</span>
+        <span> & </span>
+        <span class="updated">other</span>
+      </div>
+      <div id="expected_5_2" data-graft-if="inside">
+        <span class="updated">other</span>
+        <span> & </span>
+        <span>outside</span>
+      </div>
 
-    <ul id="tpl_6" data-graft-for="">
-      <li data-graft-text=""></li>
-    </ul>
-    <ul id="expected_6_0">
-      <li data-graft-idx="1">1</li>
-      <li data-graft-idx="2">2</li>
-      <li data-graft-idx="3">3</li>
-    </ul>
-    <ul id="expected_6_1">
-      <li data-graft-idx="1">1</li>
-      <li data-graft-idx="2">2</li>
-      <li data-graft-idx="3">3</li>
-    </ul>
+      <ul id="tpl_6" data-graft-for="">
+        <li data-graft-text=""></li>
+      </ul>
+      <ul id="expected_6_0">
+        <li data-graft-idx="1">1</li>
+        <li data-graft-idx="2">2</li>
+        <li data-graft-idx="3">3</li>
+      </ul>
+      <ul id="expected_6_1">
+        <li data-graft-idx="1">1</li>
+        <li data-graft-idx="2">2</li>
+        <li data-graft-idx="3">3</li>
+      </ul>
 
-    <table id="tpl_7">
-      <tbody data-graft-each="key">
-	<tr><td data-graft-text="key"></td><td data-graft-text=""></td></tr>
-      </tbody>
-    </table>
-    <table id="expected_7_0">
-      <tr data-graft-idx="a"><td>a</td><td>1</tr>
-      <tr data-graft-idx="b"><td>b</td><td>2</tr>
-      <tr data-graft-idx="c"><td>c</td><td>3</tr>
-    </table>
-    <table id="expected_7_1">
-      <tr data-graft-idx="a"><td>a</td><td>1</tr>
-      <tr data-graft-idx="b"><td>b</td><td class="updated">22</tr>
-      <tr data-graft-idx="c"><td>c</td><td>3</tr>
-    </table>
-    <table id="expected_7_2">
-      <tr data-graft-idx="a"><td>a</td><td>1</tr>
-      <tr data-graft-idx="d" class="added"><td>d</td><td>3</tr>
-    </table>
+      <table id="tpl_7">
+        <tbody data-graft-each="key">
+          <tr><td data-graft-text="key"></td><td data-graft-text=""></td></tr>
+        </tbody>
+      </table>
+      <table id="expected_7_0">
+        <tr data-graft-idx="a"><td>a</td><td>1</td></tr>
+        <tr data-graft-idx="b"><td>b</td><td>2</td></tr>
+        <tr data-graft-idx="c"><td>c</td><td>3</td></tr>
+      </table>
+      <table id="expected_7_1">
+        <tr data-graft-idx="a"><td>a</td><td>1</td></tr>
+        <tr data-graft-idx="b"><td>b</td><td class="updated">22</td></tr>
+        <tr data-graft-idx="c"><td>c</td><td>3</td></tr>
+      </table>
+      <table id="expected_7_2">
+        <tr data-graft-idx="a"><td>a</td><td>1</td></tr>
+        <tr data-graft-idx="d" class="added"><td>d</td><td>3</td></tr>
+      </table>
 
-    <table id="tpl_8">
-      <thead>
-	<tr><th>key</th><th>value</th></tr>
-      </thead>
-      <tbody data-graft-each="key">
-	<tr><td data-graft-text="key"></td><td data-graft-text=""></td></tr>
-      </tbody>
-    </table>
-    <table id="expected_8_0">
-      <thead>
-	<tr><th>key</th><th>value</th></tr>
-      </thead>
-      <tbody>
-	<tr data-graft-idx="a"><td>a</td><td>1</tr>
-	<tr data-graft-idx="b"><td>b</td><td>2</tr>
-	<tr data-graft-idx="c"><td>c</td><td>3</tr>
-      </tbody>
-    </table>
-    <table id="expected_8_1">
-      <thead>
-	<tr><th>key</th><th>value</th></tr>
-      </thead>
-      <tbody>
-	<tr data-graft-idx="a"><td>a</td><td>1</tr>
-	<tr data-graft-idx="b"><td>b</td><td class="updated">22</tr>
-	<tr data-graft-idx="c"><td>c</td><td>3</tr>
-      </tbody>
-    </table>
-    <table id="expected_8_2">
-      <thead>
-	<tr><th>key</th><th>value</th></tr>
-      </thead>
-      <tbody>
-	<tr data-graft-idx="aa" class="added"><td>aa</td><td>11</tr>
-	<tr data-graft-idx="b"><td>b</td><td>2</tr>
-	<tr data-graft-idx="c"><td>c</td><td>3</tr>
-      </tbody>
-    </table>
+      <table id="tpl_8">
+        <thead>
+          <tr><th>key</th><th>value</th></tr>
+        </thead>
+        <tbody data-graft-each="key">
+          <tr><td data-graft-text="key"></td><td data-graft-text=""></td></tr>
+        </tbody>
+      </table>
+      <table id="expected_8_0">
+        <thead>
+          <tr><th>key</th><th>value</th></tr>
+        </thead>
+        <tbody>
+          <tr data-graft-idx="a"><td>a</td><td>1</td></tr>
+          <tr data-graft-idx="b"><td>b</td><td>2</td></tr>
+          <tr data-graft-idx="c"><td>c</td><td>3</td></tr>
+        </tbody>
+      </table>
+      <table id="expected_8_1">
+        <thead>
+          <tr><th>key</th><th>value</th></tr>
+        </thead>
+        <tbody>
+          <tr data-graft-idx="a"><td>a</td><td>1</td></tr>
+          <tr data-graft-idx="b"><td>b</td><td class="updated">22</td></tr>
+          <tr data-graft-idx="c"><td>c</td><td>3</td></tr>
+        </tbody>
+      </table>
+      <table id="expected_8_2">
+        <thead>
+          <tr><th>key</th><th>value</th></tr>
+        </thead>
+        <tbody>
+          <tr data-graft-idx="aa" class="added"><td>aa</td><td>11</td></tr>
+          <tr data-graft-idx="b"><td>b</td><td>2</td></tr>
+          <tr data-graft-idx="c"><td>c</td><td>3</td></tr>
+        </tbody>
+      </table>
 
-    <table id="tpl_9">
-      <thead>
-	<th>x</th><th>y</th><th>z</th>
-      </thead>
-      <tbody data-graft-each="i">
-	<tr data-graft-each="j">
-	  <td data-graft-text=""></td>
-	</tr>
-      </tbody>
-    </table>
-    <table id="expected_9_0">
-      <thead>
-	<th>x</th><th>y</th><th>z</th>
-      </thead>
-      <tbody>
-	<tr data-graft-idx="a">
-	  <td data-graft-idx="x">ax</td><td data-graft-idx="y">ay</td><td data-graft-idx="z">az</td>
-	</tr>
-	<tr data-graft-idx="b">
-	  <td data-graft-idx="x">bx</td><td data-graft-idx="y">by</td><td data-graft-idx="z">bz</td>
-	</tr>
-	<tr data-graft-idx="c">
-	  <td data-graft-idx="x">cx</td><td data-graft-idx="y">cy</td><td data-graft-idx="z">cz</td>
-	</tr>
-      </tbody>
-    </table>
-    <table id="expected_9_1">
-      <thead>
-	<th>x</th><th>y</th><th>z</th>
-      </thead>
-      <tbody>
-	<tr data-graft-idx="a">
-	  <td data-graft-idx="x" class="updated">ax2</td><td data-graft-idx="y">ay</td><td data-graft-idx="z">az</td>
-	</tr>
-	<tr data-graft-idx="b">
-	  <td data-graft-idx="x">bx</td><td data-graft-idx="y">by</td><td data-graft-idx="z">bz</td>
-	</tr>
-	<tr data-graft-idx="c">
-	  <td data-graft-idx="x">cx</td><td data-graft-idx="y">cy</td><td data-graft-idx="z" class="updated">cz2</td>
-	</tr>
-      </tbody>
-    </table>
-    <table id="expected_9_2">
-      <thead>
-	<th>x</th><th>y</th><th>z</th>
-      </thead>
-      <tbody>
-	<tr data-graft-idx="a">
-	  <td data-graft-idx="x">ax</td><td data-graft-idx="y">ay</td><td data-graft-idx="z">az</td>
-	</tr>
-	<tr data-graft-idx="c">
-	  <td data-graft-idx="x">cx</td><td data-graft-idx="y">cy</td><td data-graft-idx="z">cz</td>
-	</tr>
-	<tr data-graft-idx="d" class="added">
-	  <td data-graft-idx="x">dx</td><td data-graft-idx="y">dy</td><td data-graft-idx="z">dz</td>
-	</tr>
-      </tbody>
-    </table>
+      <table id="tpl_9">
+        <thead>
+          <th>x</th><th>y</th><th>z</th>
+        </thead>
+        <tbody data-graft-each="i">
+          <tr data-graft-each="j">
+            <td data-graft-text=""></td>
+          </tr>
+        </tbody>
+      </table>
+      <table id="expected_9_0">
+        <thead>
+          <th>x</th><th>y</th><th>z</th>
+        </thead>
+        <tbody>
+          <tr data-graft-idx="a">
+            <td data-graft-idx="x">ax</td><td data-graft-idx="y">ay</td><td data-graft-idx="z">az</td>
+          </tr>
+          <tr data-graft-idx="b">
+            <td data-graft-idx="x">bx</td><td data-graft-idx="y">by</td><td data-graft-idx="z">bz</td>
+          </tr>
+          <tr data-graft-idx="c">
+            <td data-graft-idx="x">cx</td><td data-graft-idx="y">cy</td><td data-graft-idx="z">cz</td>
+          </tr>
+        </tbody>
+      </table>
+      <table id="expected_9_1">
+        <thead>
+          <th>x</th><th>y</th><th>z</th>
+        </thead>
+        <tbody>
+          <tr data-graft-idx="a">
+            <td data-graft-idx="x" class="updated">ax2</td><td data-graft-idx="y">ay</td><td data-graft-idx="z">az</td>
+          </tr>
+          <tr data-graft-idx="b">
+            <td data-graft-idx="x">bx</td><td data-graft-idx="y">by</td><td data-graft-idx="z">bz</td>
+          </tr>
+          <tr data-graft-idx="c">
+            <td data-graft-idx="x">cx</td><td data-graft-idx="y">cy</td><td data-graft-idx="z" class="updated">cz2</td>
+          </tr>
+        </tbody>
+      </table>
+      <table id="expected_9_2">
+        <thead>
+          <th>x</th><th>y</th><th>z</th>
+        </thead>
+        <tbody>
+          <tr data-graft-idx="a">
+            <td data-graft-idx="x">ax</td><td data-graft-idx="y">ay</td><td data-graft-idx="z">az</td>
+          </tr>
+          <tr data-graft-idx="c">
+            <td data-graft-idx="x">cx</td><td data-graft-idx="y">cy</td><td data-graft-idx="z">cz</td>
+          </tr>
+          <tr data-graft-idx="d" class="added">
+            <td data-graft-idx="x">dx</td><td data-graft-idx="y">dy</td><td data-graft-idx="z">dz</td>
+          </tr>
+        </tbody>
+      </table>
 
-    <div id="tpl_10">
-      <table><tbody data-graft-each="key">
-	<tr><td data-graft-text="key"></td><td data-graft-text=""></td></tr>
-      </tbody></table>
-      <div data-graft-else="">
-	<span>nothing</span>
+      <div id="tpl_10">
+        <table><tbody data-graft-each="key">
+            <tr><td data-graft-text="key"></td><td data-graft-text=""></td></tr>
+        </tbody></table>
+        <div data-graft-else="">
+          <span>nothing</span>
+        </div>
+      </div>
+      <div id="expected_10_0">
+        <table><tbody>
+            <tr data-graft-idx="a"><td>a</td><td>1</td></tr>
+            <tr data-graft-idx="b"><td>b</td><td>2</td></tr>
+            <tr data-graft-idx="c"><td>c</td><td>3</td></tr>
+        </tbody></table>
+        <div data-graft-else="">
+        </div>
+      </div>
+      <div id="expected_10_1">
+        <table><tbody>
+        </tbody></table>
+        <div class="added" data-graft-else="">
+          <span>nothing</span>
+        </div>
+      </div>
+
+      <div id="tpl_11">
+        <table><tbody data-graft-each="key">
+            <tr><td data-graft-text="key"></td><td data-graft-text=""></td></tr>
+        </tbody></table>
+        <div data-graft-else="">
+          <span>nothing</span>
+        </div>
+      </div>
+      <div id="expected_11_0">
+        <table><tbody>
+        </tbody></table>
+        <div data-graft-else="">
+          <span>nothing</span>
+        </div>
+      </div>
+      <div id="expected_11_1">
+        <table><tbody>
+            <tr data-graft-idx="a" class="added"><td>a</td><td>1</td></tr>
+            <tr data-graft-idx="b" class="added"><td>b</td><td>2</td></tr>
+            <tr data-graft-idx="c" class="added"><td>c</td><td>3</td></tr>
+        </tbody></table>
+        <div data-graft-else="">
+        </div>
+      </div>
+
+      <div id="tpl_12">
+        <span data-graft-text="name"></span>
+        <span data-graft-if="location">
+          <span>of </span><span data-graft-text="city"></span><span>, </span><span data-graft-text="country"></span>
+        </span>
+      </div>
+      <div id="expected_12_0">
+        <span>Tom</span>
+        <span data-graft-if="location">
+        </span>
+      </div>
+      <div id="expected_12_1">
+        <span>Tom</span>
+        <span class="added" data-graft-if="location">
+          <span>of </span><span>NYC</span><span>, </span><span>USA</span>
+        </span>
+      </div>
+
+      <div id="tpl_13">
+        <span data-graft-text="name"></span>
+        <span data-graft-if="location">
+          <span>of </span><span data-graft-text="city"></span><span>, </span><span data-graft-text="country"></span>
+        </span>
+      </div>
+      <div id="expected_13_0">
+        <span>Tom</span>
+        <span data-graft-if="location">
+          <span>of </span><span>NYC</span><span>, </span><span>USA</span>
+        </span>
+      </div>
+      <div id="expected_13_1">
+        <span>Tom</span>
+        <span data-graft-if="location">
+        </span>
+      </div>
+
+      <div id="tpl_14" data-graft-each="service">
+        <img data-graft--src=""></img>
+      </div>
+      <div id="expected_14_0">
+        <img data-graft-idx="fb" src="facebook.png"></img>
+        <img data-graft-idx="tw" src="twitter.png"></img>
+      </div>
+      <div id="expected_14_1">
+        <img data-graft-idx="fb" src="facebook.png"></img>
+        <img data-graft-idx="tw" src="twitter_large.png" class="updated-src"></img>
+      </div>
+      <div id="expected_14_2">
+        <img data-graft-idx="ca" src="identica.png" class="added"></img>
+        <img data-graft-idx="fb" src="facebook.png"></img>
+        <img data-graft-idx="tw" src="twitter.png"></img>
+      </div>
+
+      <div id="tpl_15" data-graft-push="a" data-graft-if="sub">
+        <span data-graft-text="a"></span>
+      </div>
+      <div id="expected_15_0" data-graft-if="sub">
+        <span>outside</span>
+      </div>
+      <div id="expected_15_1" data-graft-if="sub">
+        <span>outside</span>
+      </div>
+      <div id="expected_15_2" data-graft-if="sub">
+        <span class="updated">inside</span>
+      </div>
+
+      <div id="tpl_16" data-graft-push="b=a" data-graft-if="sub">
+        <span data-graft-text="a"></span>
+        <span data-graft-text="b"></span>
+      </div>
+      <div id="expected_16_0" data-graft-if="sub">
+        <span>inside</span>
+        <span>outside</span>
+      </div>
+      <div id="expected_16_1" data-graft-if="sub">
+        <span>inside</span>
+        <span>outside</span>
+      </div>
+      <div id="expected_16_2" data-graft-if="sub">
+        <span>inside</span>
+        <span></span>
+      </div>
+
+      <div id="tpl_17">
+        <span data-graft-text="a"></span>
+      </div>
+      <div id="expected_17_0">
+        <span>x</span>
+      </div>
+      <div id="expected_17_1">
+        <span></span>
+      </div>
+      <div id="expected_17_2">
+        <span></span>
+      </div>
+
+      <div id="tpl_18">
+        <a data-graft--href="link">link</a>
+      </div>
+      <div id="expected_18_0">
+        <a href="http://perceptiveconstructs.com">link</a>
+      </div>
+      <div id="expected_18_1">
+        <a class="removed-href">link</a>
+      </div>
+      <div id="expected_18_2">
+        <a class="removed-href">link</a>
+      </div>
+
+      <div id="tpl_19">
+        <a data-graft--href="link">link</a>
+      </div>
+      <div id="expected_19_0">
+        <a>link</a>
+      </div>
+      <div id="expected_19_1">
+        <a class="added-href" href="http://perceptiveconstructs.com">link</a>
+      </div>
+      <div id="expected_19_2">
+        <a>link</a>
+      </div>
+
+      <div id="tpl_20">
+        <a data-graft--href="link">link</a>
+      </div>
+      <div id="expected_20_0">
+        <a href="http://perceptiveconstructs.com">link</a>
+      </div>
+      <div id="expected_20_1">
+        <a class="removed-href">link</a>
+      </div>
+      <div id="expected_20_2">
+        <a class="updated-href" href="http://www.perceptiveconstructs.com">link</a>
+      </div>
+
+      <ul id="tpl_21" data-graft-for="">
+        ignore <!-- ignore -->
+        <li data-graft-text=""></li>
+        <li>ignore</li>
+      </ul>
+      <ul id="expected_21_0">
+        <li data-graft-idx="1">1</li>
+        <li data-graft-idx="2">2</li>
+        <li data-graft-idx="3">3</li>
+      </ul>
+      <ul id="expected_21_1">
+        <li data-graft-idx="1">1</li>
+        <li data-graft-idx="2">2</li>
+        <li data-graft-idx="3">3</li>
+      </ul>
+      <div id="tpl_22">
+        <div data-graft-if="a">
+          <div>a</div>
+        </div>
+        <div data-graft-if="b">
+          <div>b</div>
+        </div>
+      </div>
+      <div id="expected_22_0">
+        <div data-graft-if="a"></div>
+        <div data-graft-if="b"></div>
+      </div>
+      <div id="expected_22_1">
+        <div class="added" data-graft-if="a">
+          <div>a</div>
+        </div>
+        <div class="added" data-graft-if="b">
+          <div>b</div>
+        </div>
       </div>
     </div>
-    <div id="expected_10_0">
-      <table><tbody>
-	<tr data-graft-idx="a"><td>a</td><td>1</td></tr>
-	<tr data-graft-idx="b"><td>b</td><td>2</td></tr>
-	<tr data-graft-idx="c"><td>c</td><td>3</td></tr>
-      </tbody></table>
-      <div data-graft-else="">
-      </div>
-    </div>
-    <div id="expected_10_1">
-      <table><tbody>
-      </tbody></table>
-      <div class="added" data-graft-else="">
-	<span>nothing</span>
-      </div>
-    </div>
-
-    <div id="tpl_11">
-      <table><tbody data-graft-each="key">
-	<tr><td data-graft-text="key"></td><td data-graft-text=""></td></tr>
-      </tbody></table>
-      <div data-graft-else="">
-	<span>nothing</span>
-      </div>
-    </div>
-    <div id="expected_11_0">
-      <table><tbody>
-      </tbody></table>
-      <div data-graft-else="">
-	<span>nothing</span>
-      </div>
-    </div>
-    <div id="expected_11_1">
-      <table><tbody>
-	<tr data-graft-idx="a" class="added"><td>a</td><td>1</td></tr>
-	<tr data-graft-idx="b" class="added"><td>b</td><td>2</td></tr>
-	<tr data-graft-idx="c" class="added"><td>c</td><td>3</td></tr>
-      </tbody></table>
-      <div data-graft-else="">
-      </div>
-    </div>
-
-    <div id="tpl_12">
-      <span data-graft-text="name"></span>
-      <span data-graft-if="location">
-	<span>of </span><span data-graft-text="city"></span><span>, </span><span data-graft-text="country"></span>
-      </span>
-    </div>
-    <div id="expected_12_0">
-      <span>Tom</span>
-      <span data-graft-if="location">
-      </span>
-    </div>
-    <div id="expected_12_1">
-      <span>Tom</span>
-      <span class="added" data-graft-if="location">
-	<span>of </span><span>NYC</span><span>, </span><span>USA</span>
-      </span>
-    </div>
-
-    <div id="tpl_13">
-      <span data-graft-text="name"></span>
-      <span data-graft-if="location">
-	<span>of </span><span data-graft-text="city"></span><span>, </span><span data-graft-text="country"></span>
-      </span>
-    </div>
-    <div id="expected_13_0">
-      <span>Tom</span>
-      <span data-graft-if="location">
-	<span>of </span><span>NYC</span><span>, </span><span>USA</span>
-      </span>
-    </div>
-    <div id="expected_13_1">
-      <span>Tom</span>
-      <span data-graft-if="location">
-      </span>
-    </div>
-
-    <div id="tpl_14" data-graft-each="service">
-      <img data-graft--src=""></img>
-    </div>
-    <div id="expected_14_0">
-      <img data-graft-idx="fb" src="facebook.png"></img>
-      <img data-graft-idx="tw" src="twitter.png"></img>
-    </div>
-    <div id="expected_14_1">
-      <img data-graft-idx="fb" src="facebook.png"></img>
-      <img data-graft-idx="tw" src="twitter_large.png" class="updated-src"></img>
-    </div>
-    <div id="expected_14_2">
-      <img data-graft-idx="ca" src="identica.png" class="added"></img>
-      <img data-graft-idx="fb" src="facebook.png"></img>
-      <img data-graft-idx="tw" src="twitter.png"></img>
-    </div>
-
-    <div id="tpl_15" data-graft-push="a" data-graft-if="sub">
-      <span data-graft-text="a"></span>
-    </div>
-    <div id="expected_15_0" data-graft-if="sub">
-      <span>outside</span>
-    </div>
-    <div id="expected_15_1" data-graft-if="sub">
-      <span>outside</span>
-    </div>
-    <div id="expected_15_2" data-graft-if="sub">
-      <span class="updated">inside</span>
-    </div>
-
-    <div id="tpl_16" data-graft-push="b=a" data-graft-if="sub">
-      <span data-graft-text="a"></span>
-      <span data-graft-text="b"></span>
-    </div>
-    <div id="expected_16_0" data-graft-if="sub">
-      <span>inside</span>
-      <span>outside</span>
-    </div>
-    <div id="expected_16_1" data-graft-if="sub">
-      <span>inside</span>
-      <span>outside</span>
-    </div>
-    <div id="expected_16_2" data-graft-if="sub">
-      <span>inside</span>
-      <span></span>
-    </div>
-
-    <div id="tpl_17">
-      <span data-graft-text="a"></span>
-    </div>
-    <div id="expected_17_0">
-      <span>x</span>
-    </div>
-    <div id="expected_17_1">
-      <span></span>
-    </div>
-    <div id="expected_17_2">
-      <span></span>
-    </div>
-
-    <div id="tpl_18">
-      <a data-graft--href="link">link</a>
-    </div>
-    <div id="expected_18_0">
-      <a href="http://perceptiveconstructs.com">link</a>
-    </div>
-    <div id="expected_18_1">
-      <a class="removed-href">link</a>
-    </div>
-    <div id="expected_18_2">
-      <a class="removed-href">link</a>
-    </div>
-
-    <div id="tpl_19">
-      <a data-graft--href="link">link</a>
-    </div>
-    <div id="expected_19_0">
-      <a>link</a>
-    </div>
-    <div id="expected_19_1">
-      <a class="added-href" href="http://perceptiveconstructs.com">link</a>
-    </div>
-    <div id="expected_19_2">
-      <a>link</a>
-    </div>
-
-    <div id="tpl_20">
-      <a data-graft--href="link">link</a>
-    </div>
-    <div id="expected_20_0">
-      <a href="http://perceptiveconstructs.com">link</a>
-    </div>
-    <div id="expected_20_1">
-      <a class="removed-href">link</a>
-    </div>
-    <div id="expected_20_2">
-      <a class="updated-href" href="http://www.perceptiveconstructs.com">link</a>
-    </div>
-
-    <ul id="tpl_21" data-graft-for="">
-      ignore <!-- ignore -->
-      <li data-graft-text=""></li>
-      <li>ignore</li>
-    </ul>
-    <ul id="expected_21_0">
-      <li data-graft-idx="1">1</li>
-      <li data-graft-idx="2">2</li>
-      <li data-graft-idx="3">3</li>
-    </ul>
-    <ul id="expected_21_1">
-      <li data-graft-idx="1">1</li>
-      <li data-graft-idx="2">2</li>
-      <li data-graft-idx="3">3</li>
-    </ul>
-    <div id="tpl_22">
-      <div data-graft-if="a">
-	<div>a</div>
-      </div>
-      <div data-graft-if="b">
-	<div>b</div>
-      </div>
-    </div>
-    <div id="expected_22_0">
-      <div data-graft-if="a"></div>
-      <div data-graft-if="b"></div>
-    </div>
-    <div id="expected_22_1">
-      <div class="added" data-graft-if="a">
-	<div>a</div>
-      </div>
-      <div class="added" data-graft-if="b">
-	<div>b</div>
-      </div>
-    </div>
-  </div>
 
   </body>
 </html>
