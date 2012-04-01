@@ -9,11 +9,7 @@ var data_graft = (function () {
   var undef;
 
   function toStr(v) {
-    if(typeof(v) === 'number') {
-      return String(v);
-    } else {
-      return v;
-    }
+    return typeof(v) === 'number' ? String(v) : v;
   }
 
   function walkDots(s, f) {
@@ -69,22 +65,22 @@ var data_graft = (function () {
       fn = v.slice(1);
       f = walkDots(fn, context);
       return toStr(f(override(d, pushed)));
-    } else if(v === '') {
+    }
+    if(v === '') {
       // FIXME: find better syntax for referring to current data rather than a variable in it. this?
       return toStr(d);
-    } else {
-      r = walkDots(v, pushed);
+    }
+    r = walkDots(v, pushed);
+    if(r !== undef) {
+      return toStr(r);
+    }
+    if(typeof(d) === 'object' || typeof(d) === 'string') {
+      r = walkDots(v, d);
       if(r !== undef) {
         return toStr(r);
       }
-      if(typeof(d) === 'object' || typeof(d) === 'string') {
-        r = walkDots(v, d);
-        if(r !== undef) {
-          return toStr(r);
-        }
-      }
-      return undef;
     }
+    return undef;
   }
 
   function isEmpty(v) {
@@ -122,11 +118,11 @@ var data_graft = (function () {
   function stringSort(a, b) {
     if(a < b) {
       return -1;
-    } else if(a > b) {
-      return 1;
-    } else {
-      return 0;
     }
+    if(a > b) {
+      return 1;
+    }
+    return 0;
   }
 
   function objectKeys(o, sf) {
@@ -150,11 +146,7 @@ var data_graft = (function () {
       delete pushed._idx_;
     }
     keyPairs.sort(function (k1, k2) {
-      if(sf) {
-        return sf(k1[0], k2[0]);
-      } else {
-        return k1[0] - k2[0];
-      }
+      return sf ? sf(k1[0], k2[0]) : k1[0] - k2[0];
     });
     return keyPairs;
   }
