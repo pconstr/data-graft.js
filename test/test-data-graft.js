@@ -1,5 +1,10 @@
+/*jslint white: true, browser: true, plusplus: true, vars: true, nomen: true, bitwise: true*/
+/*global jQuery: false, $: false, data_graft: false*/
+
 /* Copyright 2010-2011, Carlos Guerreiro
  * Licensed under the MIT license */
+
+"use strict";
 
 var data_input = {
   1 : [
@@ -122,8 +127,8 @@ var data_input = {
 function allAttributesIn(al, e) {
   var excludedAttributeNames = {'id':true};
   var i, eav;
-  for(i = 0; i < al.length; ++al) {
-    if(!(al[i].name in excludedAttributeNames)) {
+  for(i = 0; i < al.length; ++i) {
+    if(excludedAttributeNames[al[i].name] === undefined) {
       eav = e.getAttribute(al[i].name);
       if(eav !== al[i].value) {
         return false;
@@ -139,7 +144,7 @@ function trimmedString(s) {
 
 function accumText(ci) {
   var t = '';
-  while(ci.i < ci.e.childNodes.length && ci.e.childNodes[ci.i].nodeType == 3) {
+  while(ci.i < ci.e.childNodes.length && ci.e.childNodes[ci.i].nodeType === 3) {
     t = t + ci.e.childNodes[ci.i].nodeValue;
     ci.i = ci.i + 1;
   }
@@ -200,10 +205,9 @@ function compareDOM(e1, e2) {
       if(ci2.i < ci2.e.childNodes.length) {
         if(!compareDOM(e1.childNodes[ci1.i], e2.childNodes[ci2.i])) {
           return false;
-        } else {
-          ci1.i = ci1.i + 1;
-          ci2.i = ci2.i + 1;
         }
+        ci1.i = ci1.i + 1;
+        ci2.i = ci2.i + 1;
       } else {
         return false;
       }
@@ -226,7 +230,7 @@ function compareDOM(e1, e2) {
 
 jQuery(document).ready(function() {
 
-  env = {
+  var env = {
     '_all_': {
       postUpdateText: function(e, f) {
         $(e).addClass('updated');
@@ -261,7 +265,7 @@ jQuery(document).ready(function() {
 
   $.each(data_input, function(i, input) {
 
-    var i, graft;
+    var j, graft;
 
     var t = $('#tpl_'+ i)[0];
 
