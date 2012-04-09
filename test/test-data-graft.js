@@ -228,7 +228,18 @@ function compareDOM(e1, e2) {
   return true;
 }
 
-jQuery(document).ready(function() {
+function test(cb) {
+  var errors = [];
+
+  function checkPart(graft, i, j) {
+    var expected, comp;
+    expected = $('#expected_'+ i+ '_'+ j)[0];
+    comp = compareDOM(graft.output, expected);
+    if(!comp) {
+      errors.push([i, j, graft.output, expected]);
+    }
+    return comp;
+  }
 
   var env = {
     '_all_': {
@@ -263,6 +274,9 @@ jQuery(document).ready(function() {
     }
   };
 
+  var remCases = 0;
+  $.each(data_input, function() { ++remCases; });
+
   $.each(data_input, function(i, input) {
 
     var j, graft;
@@ -279,18 +293,34 @@ jQuery(document).ready(function() {
     $('#output').append(html);
 
     var matched = true;
+    var remInCase = input.length - 1;
 
-    for(j = 0; j < input.length; ++j) {
+    $.each(input, function(j, part) {
       graft = data_graft.germ(input[0], t, env);
       $('#output_'+ i+ '_'+ j).append(graft.output);
       $('#show_expected_'+ i+ '_'+ j).append($('#expected_'+ i+ '_'+ j));
 
       if(j > 0) {
-        graft.update(input[j]);
+        graft.update(part, function() {
+          matched = matched && checkPart(graft, i, j);
+          --remInCase;
+          if(remInCase === 0) {
+            $('#id_'+ i).addClass(matched ? 'OK' : 'failed');
+            --remCases;
+            if(remCases === 0) {
+              if(cb) {
+                cb(errors);
+              }
+            }
+          }
+        });
+      } else {
+        matched = matched && checkPart(graft, i, j);
       }
-
-      matched = matched && compareDOM(graft.output, $('#expected_'+ i+ '_'+ j)[0]);
-    }
-    $('#id_'+ i).addClass(matched ? 'OK' : 'failed');
+    });
   });
+}
+
+jQuery(document).ready(function() {
+  test();
 });
