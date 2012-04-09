@@ -778,7 +778,7 @@ var data_graft = (function () {
   }
 
   var graftProto = {
-    update: function (d) {
+    update: function (d, cb) {
       var context = this.context;
       var unfinishedHandlersCount = 0;
       var startedEverything = false;
@@ -793,6 +793,9 @@ var data_graft = (function () {
             if(context.finish !== undef) {
               context.finish();
             }
+            if(cb) {
+              cb();
+            }
           }
         }
       };
@@ -801,8 +804,13 @@ var data_graft = (function () {
       }
       regenerateChild(this.output, d, this.template, germState, {}, context, tracker);
       startedEverything = true;
-      if(context.finish !== undef && unfinishedHandlersCount === 0) {
-        context.finish();
+      if(unfinishedHandlersCount === 0) {
+        if(context.finish !== undef) {
+          context.finish();
+        }
+        if(cb) {
+          cb();
+        }
       }
     }
   };
