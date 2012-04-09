@@ -3,7 +3,7 @@
   "version": "0.1.2",
   "keywords": ["template", "engine", "DOM", "animation", "differential"],
   "homepage": "https://github.com/pconstr/data-graft.js",
-  "description": "animation-friendly differential DOM template engine",
+  "description": "animation-friendly differential DOM template engine (not ready for production)",
   "main": "data-graft.js",
   "repository": {
     "type": "git",
