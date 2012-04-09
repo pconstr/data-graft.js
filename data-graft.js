@@ -634,7 +634,8 @@ var data_graft = (function () {
 
   function updateAttribute(target, attr, v, context, tracker) {
     var currValue = target.getAttribute(attr);
-    var hasGot = currValue !== null;
+    // FIXME: consider using hasAttribute() with some fallback for IE8
+    var hasGot = currValue !== null && currValue !== '';
     var shouldHave = v !== undef && v !== null;
     var f;
 
