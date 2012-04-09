@@ -1,0 +1,36 @@
+{
+  "name": "data-graft",
+  "version": "0.1.2",
+  "keywords": ["template", "engine", "DOM", "animation", "differential"],
+  "homepage": "https://github.com/pconstr/data-graft.js",
+  "description": "animation-friendly differential DOM template engine",
+  "main": "data-graft.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pconstr/data-graft.js"
+  },
+  "engines": {
+    "node": ">=0.4.0 <0.7.0"
+  },
+  "author": "Carlos Guerreiro <carlos@perceptiveconstructs.com (http://perceptiveconstructs.com)",
+  "dependencies": {},
+  "devDependencies": {"jslint": "0.1.6", "jsdom": "0.2.13"},
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://www.opensource.org/licenses/MIT"
+    }
+  ],
+  "bugs" : { "url" : "https://github.com/pconstr/data-graft.js/issues" },
+  "contributors": [
+    {
+      "name": "Carlos Guerreiro",
+      "email": "carlos@perceptiveconstructs.com",
+      "web": "http://perceptiveconstructs.com"
+    }
+  ],
+  "scripts": {
+    "lint": "./node_modules/jslint/bin/jslint.js *.js test/*.js",
+    "test": "cd ./test && node test.js"
+  }
+}
