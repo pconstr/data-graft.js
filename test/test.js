@@ -1,4 +1,9 @@
 #!/usr/bin/env node
+/*jslint white: true, browser: true, plusplus: true, vars: true, nomen: true, bitwise: true*/
+/*global jQuery: false, $: false, data_graft: false*/
+
+/* Copyright 2010-2011, Carlos Guerreiro
+ * Licensed under the MIT license */
 
 'use strict';
 
@@ -13,8 +18,9 @@ jsdom.env({
     'test-data-graft.js'
   ],
   done: function(errors, window) {
-    if(errors)
+    if(errors) {
       throw errors;
+    }
     window.console = console;
     window.testSequence(window.data_input, function(errors) {
       if(errors.length === 0) {
