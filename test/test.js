@@ -10,12 +10,12 @@
 var jsdom = require('jsdom');
 
 jsdom.env({
-  html: 'test-data-graft.html',
+  html: 'test-1.html',
   scripts: [
     '../stuff/jquery-1.7.1.min.js',
     '../data-graft.js',
     'test-common.js',
-    'test-data-graft.js'
+    'test-1.js'
   ],
   done: function(errors, window) {
     if(errors) {
