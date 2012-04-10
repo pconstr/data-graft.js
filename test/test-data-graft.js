@@ -1,5 +1,5 @@
 /*jslint white: true, browser: true, plusplus: true, vars: true, nomen: true, bitwise: true*/
-/*global jQuery: false, $: false, data_graft: false*/
+/*global jQuery: false, $: false, data_graft: false, testSequence: false*/
 
 /* Copyright 2010-2011, Carlos Guerreiro
  * Licensed under the MIT license */
@@ -123,3 +123,7 @@ var data_input = {
     {a:1, b:2},
   ]
 };
+
+function runTests(cb) {
+  testSequence(data_input, cb);
+}

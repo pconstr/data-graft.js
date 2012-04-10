@@ -22,15 +22,11 @@ jsdom.env({
       throw errors;
     }
     window.console = console;
-    window.testSequence(window.data_input, function(errors) {
-      if(errors.length === 0) {
-        console.log('OK');
+    window.runTests(function(err) {
+      if(err) {
+        console.log('failed');
         return;
       }
-      console.error(errors.length, 'errors');
-      errors.forEach(function(error) {
-        console.log('in '+ error[0]+ '.'+ error[1]);
-        // FIXME: details of mismatch - perhaps compareDOM could return them?
-      });
+      console.log('OK');
     });
   }});

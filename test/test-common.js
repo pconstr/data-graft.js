@@ -191,7 +191,16 @@ function testSequence(testCases, cb) {
             --remCases;
             if(remCases === 0) {
               if(cb) {
-                cb(errors);
+                if(errors.length === 0) {
+                  cb(null);
+                } else {
+                  console.error(errors.length, 'errors');
+                  errors.forEach(function(error) {
+                    console.log('in '+ error[0]+ '.'+ error[1]);
+                    // FIXME: details of mismatch - perhaps compareDOM could return them?
+                  });
+                  cb(errors);
+                }
               }
             }
           }
