@@ -9,13 +9,14 @@ jsdom.env({
   scripts: [
     '../stuff/jquery-1.7.1.min.js',
     '../data-graft.js',
+    'test-common.js',
     'test-data-graft.js'
   ],
   done: function(errors, window) {
     if(errors)
       throw errors;
     window.console = console;
-    window.test(function(errors) {
+    window.testSequence(window.data_input, function(errors) {
       if(errors.length === 0) {
         console.log('OK');
         return;
