@@ -9,24 +9,39 @@
 
 var jsdom = require('jsdom');
 
-jsdom.env({
-  html: 'test-1.html',
-  scripts: [
-    '../stuff/jquery-1.7.1.min.js',
-    '../data-graft.js',
-    'test-common.js',
-    'test-1.js'
-  ],
-  done: function(errors, window) {
-    if(errors) {
-      throw errors;
-    }
-    window.console = console;
-    window.runTests(function(err) {
-      if(err) {
-        console.log('failed');
-        return;
+var tests = ['test-1'];
+
+function runNext() {
+  var test = tests.shift();
+
+  if(test === undefined) {
+    return;
+  }
+
+  console.log(test+ ':');
+
+  jsdom.env({
+    html: test+ '.html',
+    scripts: [
+      '../stuff/jquery-1.7.1.min.js',
+      '../data-graft.js',
+      'test-common.js',
+      test+ '.js'
+    ],
+    done: function(errors, window) {
+      if(errors) {
+        throw errors;
       }
-      console.log('OK');
-    });
-  }});
+      window.console = console;
+      window.runTests(function(err) {
+        if(err) {
+          console.log('failed');
+        } else {
+          console.log('OK');
+        }
+        process.nextTick(runNext);
+      });
+    }});
+}
+
+runNext();
