@@ -36,6 +36,7 @@ function runNext() {
       window.runTests(function(err) {
         if(err) {
           console.log('failed');
+          process.exit(1)
         } else {
           console.log('OK');
         }
