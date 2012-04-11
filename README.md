@@ -3,7 +3,7 @@ data-graft.js
 
 [![Build Status](https://secure.travis-ci.org/pconstr/data-graft.js.png)](http://travis-ci.org/pconstr/data-graft.js)
 
-(warning: not ready for production)
+(**warning: not ready for production**)
 
 data-graft.js is a animation-friendly differential DOM template engine, self-contained and framework-agnostic.
 
